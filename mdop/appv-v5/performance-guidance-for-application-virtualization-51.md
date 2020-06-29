@@ -1,0 +1,772 @@
+---
+title: Guía para el rendimiento de Application Virtualization 5.1
+description: Guía para el rendimiento de Application Virtualization 5.1
+author: dansimp
+ms.assetid: 5f2643c7-5cf7-4a29-adb7-45bf9f5b0364
+ms.reviewer: ''
+manager: dansimp
+ms.author: dansimp
+ms.pagetype: mdop, appcompat, virtualization
+ms.mktglfcycl: deploy
+ms.sitesec: library
+ms.prod: w10
+ms.date: 08/30/2016
+ms.openlocfilehash: 3382a7958e12cc28b8101a6d5b7384a6975e6e82
+ms.sourcegitcommit: 354664bc527d93f80687cd2eba70d1eea024c7c3
+ms.translationtype: MT
+ms.contentlocale: es-ES
+ms.lasthandoff: 06/26/2020
+ms.locfileid: "10813519"
+---
+# <span data-ttu-id="6b40d-103">Guía para el rendimiento de Application Virtualization 5.1</span><span class="sxs-lookup"><span data-stu-id="6b40d-103">Performance Guidance for Application Virtualization 5.1</span></span>
+
+
+<span data-ttu-id="6b40d-104">Aprenda a configurar App-V 5,1 para obtener un rendimiento óptimo, optimizar paquetes de aplicaciones virtuales y ofrecer una mejor experiencia de usuario con RDS y VDI.</span><span class="sxs-lookup"><span data-stu-id="6b40d-104">Learn how to configure App-V 5.1 for optimal performance, optimize virtual app packages, and provide a better user experience with RDS and VDI.</span></span>
+
+<span data-ttu-id="6b40d-105">La implementación de varios métodos puede ayudarte a mejorar la experiencia del usuario final.</span><span class="sxs-lookup"><span data-stu-id="6b40d-105">Implementing multiple methods can help you improve the end-user experience.</span></span> <span data-ttu-id="6b40d-106">Sin embargo, es posible que su entorno no admita todos los métodos.</span><span class="sxs-lookup"><span data-stu-id="6b40d-106">However, your environment may not support all methods.</span></span>
+
+<span data-ttu-id="6b40d-107">Debe leer y comprender la siguiente información antes de leer este documento.</span><span class="sxs-lookup"><span data-stu-id="6b40d-107">You should read and understand the following information before reading this document.</span></span>
+
+-   [<span data-ttu-id="6b40d-108">Guía del administrador de Microsoft Application Virtualization 5,1</span><span class="sxs-lookup"><span data-stu-id="6b40d-108">Microsoft Application Virtualization 5.1 Administrator's Guide</span></span>](microsoft-application-virtualization-51-administrators-guide.md)
+
+-   [<span data-ttu-id="6b40d-109">Publicación de aplicaciones de aplicación-V 5 SP2 e interacción del cliente</span><span class="sxs-lookup"><span data-stu-id="6b40d-109">App-V 5 SP2 Application Publishing and Client Interaction</span></span>](https://go.microsoft.com/fwlink/?LinkId=395206)
+
+-   [<span data-ttu-id="6b40d-110">Guía de secuencias de Microsoft Application Virtualization</span><span class="sxs-lookup"><span data-stu-id="6b40d-110">Microsoft Application Virtualization Sequencing Guide</span></span>](https://go.microsoft.com/fwlink/?LinkId=269953)
+
+**<span data-ttu-id="6b40d-111">Nota</span><span class="sxs-lookup"><span data-stu-id="6b40d-111">Note</span></span>**  
+<span data-ttu-id="6b40d-112">Algunos términos que se usan en este documento pueden tener diferentes significados según el origen y el contexto externos.</span><span class="sxs-lookup"><span data-stu-id="6b40d-112">Some terms used in this document may have different meanings depending on external source and context.</span></span> <span data-ttu-id="6b40d-113">Para más información sobre los términos que se usan en este documento seguidos de un asterisco **\\** \*, revise la sección terminología de la [Guía de rendimiento de virtualización](#bkmk-terms1) de la aplicación en este documento.</span><span class="sxs-lookup"><span data-stu-id="6b40d-113">For more information about terms used in this document followed by an asterisk **\\**\* review the [Application Virtualization Performance Guidance Terminology](#bkmk-terms1) section of this document.</span></span>
+
+
+
+<span data-ttu-id="6b40d-114">Por último, este documento le proporcionará la información para configurar el equipo que ejecuta el cliente de App-V 5,1 y el entorno para un rendimiento óptimo.</span><span class="sxs-lookup"><span data-stu-id="6b40d-114">Finally, this document will provide you with the information to configure the computer running App-V 5.1 client and the environment for optimal performance.</span></span> <span data-ttu-id="6b40d-115">Optimice los paquetes de aplicaciones virtuales para el rendimiento con el secuenciador y aprenda a usar la virtualización de la experiencia del usuario (UE-V) u otras tecnologías de administración del entorno de usuario para ofrecer una experiencia de usuario óptima con App-V 5,1 en servicios de escritorio remoto (RDS) y en la infraestructura de escritorio virtual no persistente (VDI).</span><span class="sxs-lookup"><span data-stu-id="6b40d-115">Optimize your virtual application packages for performance using the sequencer, and to understand how to use User Experience Virtualization (UE-V) or other user environment management technologies to provide the optimal user experience with App-V 5.1 in both Remote Desktop Services (RDS) and non-persistent virtual desktop infrastructure (VDI).</span></span>
+
+<span data-ttu-id="6b40d-116">Para ayudarle a determinar qué información es relevante para su entorno, debe revisar la breve descripción general de cada sección y la lista de comprobación de aplicabilidad.</span><span class="sxs-lookup"><span data-stu-id="6b40d-116">To help determine what information is relevant to your environment you should review each section’s brief overview and applicability checklist.</span></span>
+
+## <a href="" id="---------app-v-5-1-in-stateful--non-persistent-deployments"></a> <span data-ttu-id="6b40d-117">App-V 5,1 en estado \ \* implementaciones no persistentes</span><span class="sxs-lookup"><span data-stu-id="6b40d-117">App-V 5.1 in stateful\* non-persistent deployments</span></span>
+
+
+<span data-ttu-id="6b40d-118">Esta sección proporciona información sobre un enfoque que ayuda a garantizar que el usuario tendrá acceso a todas las aplicaciones virtuales en segundos después de iniciar sesión.</span><span class="sxs-lookup"><span data-stu-id="6b40d-118">This section provides information about an approach that helps ensure a user will have access to all virtual applications within seconds after logging in.</span></span> <span data-ttu-id="6b40d-119">Esto se logra aplicando la actualización de la publicación App-V 5,1 de ejecución de larga duración.</span><span class="sxs-lookup"><span data-stu-id="6b40d-119">This is achieved by uniquely addressing the often long-running App-V 5.1 publishing refresh.</span></span> <span data-ttu-id="6b40d-120">Como verá la base del enfoque, la actualización de publicación más rápida es una que no tiene que hacer nada realmente.</span><span class="sxs-lookup"><span data-stu-id="6b40d-120">As you will discover the basis of the approach, the fastest publishing refresh, is one that doesn’t have to actually do anything.</span></span> <span data-ttu-id="6b40d-121">Se deben cumplir una serie de condiciones y los pasos seguidos para proporcionar una experiencia óptima para el usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-121">A number of conditions must be met and steps followed to provide the optimal user experience.</span></span>
+
+<span data-ttu-id="6b40d-122">Use la información de la siguiente sección para obtener más información:</span><span class="sxs-lookup"><span data-stu-id="6b40d-122">Use the information in the following section for more information:</span></span>
+
+<span data-ttu-id="6b40d-123">[Escenarios de uso](#bkmk-us) : al revisar los dos escenarios, tenga en cuenta que este es el enfoque.</span><span class="sxs-lookup"><span data-stu-id="6b40d-123">[Usage Scenarios](#bkmk-us) - As you review the two scenarios, keep in mind that these are the approach extremes.</span></span> <span data-ttu-id="6b40d-124">En función de sus requisitos de uso, puede optar por aplicar estos pasos a un subconjunto de usuarios o paquetes de aplicaciones virtuales.</span><span class="sxs-lookup"><span data-stu-id="6b40d-124">Based on your usage requirements, you may choose to apply these steps to a subset of users and/or virtual applications packages.</span></span>
+
+-   <span data-ttu-id="6b40d-125">Optimizado para el rendimiento: para ofrecer la experiencia óptima, puede esperar que la imagen base incluya parte del paquete de aplicaciones virtual de App-V.</span><span class="sxs-lookup"><span data-stu-id="6b40d-125">Optimized for Performance – To provide the optimal experience, you can expect the base image to include some of the App-V virtual application package.</span></span> <span data-ttu-id="6b40d-126">Se tratan estos y otros requisitos.</span><span class="sxs-lookup"><span data-stu-id="6b40d-126">This and other requirements are discussed.</span></span>
+
+-   <span data-ttu-id="6b40d-127">Optimizado para el almacenamiento: Si le preocupa el impacto en el almacenamiento, el cumplimiento de este escenario le ayudará a resolver esos problemas.</span><span class="sxs-lookup"><span data-stu-id="6b40d-127">Optimized for Storage – If you are concerned with the storage impact, following this scenario will help address those concerns.</span></span>
+
+[<span data-ttu-id="6b40d-128">Preparación del entorno</span><span class="sxs-lookup"><span data-stu-id="6b40d-128">Preparing your Environment</span></span>](#bkmk-pe)
+
+-   <span data-ttu-id="6b40d-129">Pasos para preparar la imagen base: ya sea en un entorno VDI o RDSH no persistente, solo se deben completar unos pocos pasos en la imagen base para habilitar este enfoque.</span><span class="sxs-lookup"><span data-stu-id="6b40d-129">Steps to Prepare the Base Image – Whether in a non-persistent VDI or RDSH environment, only a few steps must be completed in the base image to enable this approach.</span></span>
+
+-   <span data-ttu-id="6b40d-130">Use UE-V 2,1 como solución de administración de perfiles de usuario (UPM) para el enfoque de App-V: la piedra angular de este enfoque es la capacidad de una solución UEM de conservar el contenido de pocas pocas ubicaciones del registro y los archivos.</span><span class="sxs-lookup"><span data-stu-id="6b40d-130">Use UE-V 2.1 as the User Profile Management (UPM) solution for the App-V approach – the cornerstone of this approach is the ability of a UEM solution to persist the contents of just a few registry and file locations.</span></span> <span data-ttu-id="6b40d-131">Estas ubicaciones constituyen la integración de usuarios \ \*.</span><span class="sxs-lookup"><span data-stu-id="6b40d-131">These locations constitute the user integrations\*.</span></span> <span data-ttu-id="6b40d-132">Asegúrese de revisar los requisitos específicos para la solución de UPM.</span><span class="sxs-lookup"><span data-stu-id="6b40d-132">Be sure to review the specific requirements for the UPM solution.</span></span>
+
+[<span data-ttu-id="6b40d-133">Tutorial de experiencia del usuario</span><span class="sxs-lookup"><span data-stu-id="6b40d-133">User Experience Walk-through</span></span>](#bkmk-uewt)
+
+-   <span data-ttu-id="6b40d-134">Tutorial: esta es una guía paso a paso de las operaciones de App-V y UE-V, así como las expectativas de los usuarios.</span><span class="sxs-lookup"><span data-stu-id="6b40d-134">Walk-through – This is a step-by-step walk-through of the App-V and UE-V operations and the expectations users should have.</span></span>
+
+-   <span data-ttu-id="6b40d-135">Resultado: describe los resultados esperados.</span><span class="sxs-lookup"><span data-stu-id="6b40d-135">Outcome – This describes the expected results.</span></span>
+
+[<span data-ttu-id="6b40d-136">Impacto en el ciclo de vida del paquete</span><span class="sxs-lookup"><span data-stu-id="6b40d-136">Impact to Package Lifecycle</span></span>](#bkmk-plc)
+
+[<span data-ttu-id="6b40d-137">Mejorar la experiencia de VDI mediante la optimización y el ajuste del rendimiento</span><span class="sxs-lookup"><span data-stu-id="6b40d-137">Enhancing the VDI Experience through Performance Optimization/Tuning</span></span>](#bkmk-evdi)
+
+### <a href="" id="applicability-checklist-"></a><span data-ttu-id="6b40d-138">Lista de comprobación de aplicabilidad</span><span class="sxs-lookup"><span data-stu-id="6b40d-138">Applicability Checklist</span></span>
+
+<span data-ttu-id="6b40d-139">Entorno de implementación</span><span class="sxs-lookup"><span data-stu-id="6b40d-139">Deployment Environment</span></span>
+
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td align="left"><img src="images/checklistbox.gif" alt="Checklist box" /></td>
+<td align="left"><p><span data-ttu-id="6b40d-140">VDI o RDSH no persistente.</span><span class="sxs-lookup"><span data-stu-id="6b40d-140">Non-Persistent VDI or RDSH.</span></span></p></td>
+</tr>
+<tr class="even">
+<td align="left"><img src="images/checklistbox.gif" alt="Checklist box" /></td>
+<td align="left"><p><span data-ttu-id="6b40d-141">Virtualización de la experiencia del usuario (UE-V), otras soluciones de UPM o discos de Perfil de usuario (UPD).</span><span class="sxs-lookup"><span data-stu-id="6b40d-141">User Experience Virtualization (UE-V), other UPM solutions or User Profile Disks (UPD).</span></span></p></td>
+</tr>
+</tbody>
+</table>
+
+
+
+<span data-ttu-id="6b40d-142">Configuración esperada</span><span class="sxs-lookup"><span data-stu-id="6b40d-142">Expected Configuration</span></span>
+
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td align="left"><img src="images/checklistbox.gif" alt="Checklist box" /></td>
+<td align="left"><p><span data-ttu-id="6b40d-143">Virtualización de la experiencia del usuario (UE-V) con la plantilla de estado de usuario de App-V habilitada o el software de administración de perfiles de usuario (UPM).</span><span class="sxs-lookup"><span data-stu-id="6b40d-143">User Experience Virtualization (UE-V) with the App-V user state template enabled or User Profile Management (UPM) software.</span></span> <span data-ttu-id="6b40d-144">El software UPM que no es UE-V debe poder activar el inicio de sesión o el inicio y cierre de sesión de la aplicación.</span><span class="sxs-lookup"><span data-stu-id="6b40d-144">Non-UE-V UPM software must be capable of triggering on Login or Process/Application Start and Logoff.</span></span></p></td>
+</tr>
+<tr class="even">
+<td align="left"><img src="images/checklistbox.gif" alt="Checklist box" /></td>
+<td align="left"><p><span data-ttu-id="6b40d-145">El almacén de contenido compartido de App-V (SCS) está configurado o se puede configurar.</span><span class="sxs-lookup"><span data-stu-id="6b40d-145">App-V Shared Content Store (SCS) is configured or can be configured.</span></span></p></td>
+</tr>
+</tbody>
+</table>
+
+
+
+<span data-ttu-id="6b40d-146">Administración de ti</span><span class="sxs-lookup"><span data-stu-id="6b40d-146">IT Administration</span></span>
+
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<tbody>
+<tr class="odd">
+<td align="left"><img src="images/checklistbox.gif" alt="Checklist box" /></td>
+<td align="left"><p><span data-ttu-id="6b40d-147">Es posible que el administrador necesite actualizar la imagen base de la VM regularmente para garantizar un rendimiento óptimo o que el administrador necesite administrar varias imágenes para grupos de usuarios diferentes.</span><span class="sxs-lookup"><span data-stu-id="6b40d-147">Admin may need to update the VM base image regularly to ensure optimal performance or Admin may need to manage multiple images for different user groups.</span></span></p></td>
+</tr>
+</tbody>
+</table>
+
+
+
+### <a href="" id="bkmk-us"></a><span data-ttu-id="6b40d-148">Escenario de uso</span><span class="sxs-lookup"><span data-stu-id="6b40d-148">Usage Scenario</span></span>
+
+<span data-ttu-id="6b40d-149">Mientras revisa los dos escenarios, tenga en cuenta que estos enfoques se aproximan a los extremos.</span><span class="sxs-lookup"><span data-stu-id="6b40d-149">As you review the two scenarios, keep in mind that these approach the extremes.</span></span> <span data-ttu-id="6b40d-150">En función de sus requisitos de uso, puede elegir aplicar estos pasos a un subconjunto de usuarios, paquetes de aplicaciones virtuales o ambos.</span><span class="sxs-lookup"><span data-stu-id="6b40d-150">Based on your usage requirements, you may choose to apply these steps to a subset of users, virtual application packages, or both.</span></span>
+
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><span data-ttu-id="6b40d-151">Optimizado para el rendimiento</span><span class="sxs-lookup"><span data-stu-id="6b40d-151">Optimized for Performance</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-152">Optimizado para el almacenamiento</span><span class="sxs-lookup"><span data-stu-id="6b40d-152">Optimized for Storage</span></span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><p><span data-ttu-id="6b40d-153">Para ofrecer la mejor experiencia de usuario, este enfoque aprovecha las capacidades de una solución de UPM y requiere una mayor preparación de la imagen y puede suponer un overhead adicional de administración de imágenes.</span><span class="sxs-lookup"><span data-stu-id="6b40d-153">To provide the most optimal user experience, this approach leverages the capabilities of a UPM solution and requires additional image preparation and can incur some additional image management overhead.</span></span></p>
+<p><span data-ttu-id="6b40d-154">A continuación se describen varias mejoras de rendimiento en implementaciones no persistentes con estado.</span><span class="sxs-lookup"><span data-stu-id="6b40d-154">The following describes many performance improvements in stateful non-persistent deployments.</span></span> <span data-ttu-id="6b40d-155">Para obtener más información, consulte <strong> pasos de secuenciación para optimizar el rendimiento de la publicación </strong> y la referencia a la <strong> Guía de secuenciación de App-V </strong> en la <strong> sección Vea también de este documento </strong> .</span><span class="sxs-lookup"><span data-stu-id="6b40d-155">For more information, see the <strong>Sequencing Steps to Optimize Packages for Publishing Performance</strong> and reference to <strong>App-V Sequencing Guide</strong> in the <strong>See Also section of this document</strong>.</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-156">Las expectativas generales del escenario anterior aún se aplican aquí.</span><span class="sxs-lookup"><span data-stu-id="6b40d-156">The general expectations of the previous scenario still apply here.</span></span> <span data-ttu-id="6b40d-157">Sin embargo, tenga en cuenta que las imágenes de VMs generalmente se almacenan en arreglos de discos muy costosos; se ha realizado una ligera alteración del enfoque.</span><span class="sxs-lookup"><span data-stu-id="6b40d-157">However, keep in mind that VM images are typically stored in very costly arrays; a slight alteration has been made to the approach.</span></span> <span data-ttu-id="6b40d-158">No configure previamente paquetes de aplicaciones virtuales dirigidos al usuario en la imagen base.</span><span class="sxs-lookup"><span data-stu-id="6b40d-158">Do not pre-configure user-targeted virtual application packages in the base image.</span></span></p>
+<p><span data-ttu-id="6b40d-159">El impacto de esta modificación se detalla en la sección tutorial sobre la experiencia del usuario de este documento.</span><span class="sxs-lookup"><span data-stu-id="6b40d-159">The impact of this alteration is detailed in the User Experience Walkthrough section of this document.</span></span></p></td>
+</tr>
+</tbody>
+</table>
+
+
+
+### <a href="" id="bkmk-pe"></a><span data-ttu-id="6b40d-160">Preparación del entorno</span><span class="sxs-lookup"><span data-stu-id="6b40d-160">Preparing your Environment</span></span>
+
+<span data-ttu-id="6b40d-161">En la tabla siguiente se muestran los pasos necesarios para preparar la imagen base y la versión de UE-V u otra solución UPM para el enfoque.</span><span class="sxs-lookup"><span data-stu-id="6b40d-161">The following table displays the required steps to prepare the base image and the UE-V or another UPM solution for the approach.</span></span>
+
+**<span data-ttu-id="6b40d-162">Preparar la imagen base</span><span class="sxs-lookup"><span data-stu-id="6b40d-162">Prepare the Base Image</span></span>**
+
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><span data-ttu-id="6b40d-163">Optimizado para el rendimiento</span><span class="sxs-lookup"><span data-stu-id="6b40d-163">Optimized for Performance</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-164">Optimizado para el almacenamiento</span><span class="sxs-lookup"><span data-stu-id="6b40d-164">Optimized for Storage</span></span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><p></p>
+<ul>
+<li><p><span data-ttu-id="6b40d-165">Instale la versión de cliente de App-V 5,1 del cliente.</span><span class="sxs-lookup"><span data-stu-id="6b40d-165">Install the App-V 5.1 client version of the client.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-166">Instale UE-V y descargue la plantilla de configuración de App-V de la galería de plantillas de UE-V, consulte los siguientes pasos.</span><span class="sxs-lookup"><span data-stu-id="6b40d-166">Install UE-V and download the App-V Settings Template from the UE-V template Gallery, see the following steps.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-167">Configurar el modo para el almacén de contenido compartido (SCS).</span><span class="sxs-lookup"><span data-stu-id="6b40d-167">Configure for Shared Content Store (SCS) mode.</span></span> <span data-ttu-id="6b40d-168">Para obtener más información, vea <a href="how-to-install-the-app-v-51-client-for-shared-content-store-mode.md" data-raw-source="[How to Install the App-V 5.1 Client for Shared Content Store Mode](how-to-install-the-app-v-51-client-for-shared-content-store-mode.md)"> Cómo instalar el cliente de App-V 5,1 para el modo de almacén de contenido compartido </a> .</span><span class="sxs-lookup"><span data-stu-id="6b40d-168">For more information see <a href="how-to-install-the-app-v-51-client-for-shared-content-store-mode.md" data-raw-source="[How to Install the App-V 5.1 Client for Shared Content Store Mode](how-to-install-the-app-v-51-client-for-shared-content-store-mode.md)">How to Install the App-V 5.1 Client for Shared Content Store Mode</a>.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-169">Configure la configuración de preservar integraciones del usuario en el registro DWORD.</span><span class="sxs-lookup"><span data-stu-id="6b40d-169">Configure Preserve User Integrations on Login Registry DWORD.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-170">Configurar previamente todos los paquetes de destino global y de usuario, por ejemplo, <strong> Add-AppvClientPackage </strong> .</span><span class="sxs-lookup"><span data-stu-id="6b40d-170">Pre-configure all user- and global-targeted packages for example, <strong>Add-AppvClientPackage</strong>.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-171">Configure previamente todos los grupos de conexión de usuario y de destino global, por ejemplo, <strong> Add-AppvClientConnectionGroup </strong> .</span><span class="sxs-lookup"><span data-stu-id="6b40d-171">Pre-configure all user- and global-targeted connection groups for example, <strong>Add-AppvClientConnectionGroup</strong>.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-172">Publicar previamente todos los paquetes de destino global.</span><span class="sxs-lookup"><span data-stu-id="6b40d-172">Pre-publish all global-targeted packages.</span></span></p>
+<p></p>
+<p><span data-ttu-id="6b40d-173">También</span><span class="sxs-lookup"><span data-stu-id="6b40d-173">Alternatively,</span></span></p>
+<ul>
+<li><p><span data-ttu-id="6b40d-174">Realizar una publicación o actualización global.</span><span class="sxs-lookup"><span data-stu-id="6b40d-174">Perform a global publishing/refresh.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-175">Realizar una publicación o actualización de usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-175">Perform a user publishing/refresh.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-176">Cancelar la publicación de todos los paquetes dirigidos al usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-176">Un-publish all user-targeted packages.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-177">Elimine las siguientes entradas de usuario de sistema de archivos virtual (VFS).</span><span class="sxs-lookup"><span data-stu-id="6b40d-177">Delete the following user-Virtual File System (VFS) entries.</span></span></p></li>
+</ul>
+<p><code>AppData\Local\Microsoft\AppV\Client\VFS</code></p>
+<p><code>AppData\Roaming\Microsoft\AppV\Client\VFS</code></p></li>
+</ul></td>
+<td align="left"><p></p>
+<ul>
+<li><p><span data-ttu-id="6b40d-178">Instale la versión de cliente de App-V 5,1 del cliente.</span><span class="sxs-lookup"><span data-stu-id="6b40d-178">Install the App-V 5.1 client version of the client.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-179">Instale UE-V y descargue la plantilla de configuración de App-V de la galería de plantillas de UE-V, consulte los siguientes pasos.</span><span class="sxs-lookup"><span data-stu-id="6b40d-179">Install UE-V and download the App-V Settings Template from the UE-V template Gallery, see the following steps.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-180">Configurar el modo para el almacén de contenido compartido (SCS).</span><span class="sxs-lookup"><span data-stu-id="6b40d-180">Configure for Shared Content Store (SCS) mode.</span></span> <span data-ttu-id="6b40d-181">Para obtener más información, vea <a href="how-to-install-the-app-v-51-client-for-shared-content-store-mode.md" data-raw-source="[How to Install the App-V 5.1 Client for Shared Content Store Mode](how-to-install-the-app-v-51-client-for-shared-content-store-mode.md)"> Cómo instalar el cliente de App-V 5,1 para el modo de almacén de contenido compartido </a> .</span><span class="sxs-lookup"><span data-stu-id="6b40d-181">For more information see <a href="how-to-install-the-app-v-51-client-for-shared-content-store-mode.md" data-raw-source="[How to Install the App-V 5.1 Client for Shared Content Store Mode](how-to-install-the-app-v-51-client-for-shared-content-store-mode.md)">How to Install the App-V 5.1 Client for Shared Content Store Mode</a>.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-182">Configure la configuración de preservar integraciones del usuario en el registro DWORD.</span><span class="sxs-lookup"><span data-stu-id="6b40d-182">Configure Preserve User Integrations on Login Registry DWORD.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-183">Preconfigurar todos los paquetes de destino global, por ejemplo, <strong> Add-AppvClientPackage </strong> .</span><span class="sxs-lookup"><span data-stu-id="6b40d-183">Pre-configure all global-targeted packages for example, <strong>Add-AppvClientPackage</strong>.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-184">Configure previamente todos los grupos de conexión de destino global, por ejemplo, <strong> Add-AppvClientConnectionGroup </strong> .</span><span class="sxs-lookup"><span data-stu-id="6b40d-184">Pre-configure all global-targeted connection groups for example, <strong>Add-AppvClientConnectionGroup</strong>.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-185">Publicar previamente todos los paquetes de destino global.</span><span class="sxs-lookup"><span data-stu-id="6b40d-185">Pre-publish all global-targeted packages.</span></span></p>
+<p></p></li>
+</ul></td>
+</tr>
+</tbody>
+</table>
+
+
+
+<span data-ttu-id="6b40d-186">**Configuraciones** -para configuraciones de cliente de App-V críticas y un poco más de contexto y procedimientos, revise la siguiente información:</span><span class="sxs-lookup"><span data-stu-id="6b40d-186">**Configurations** - For critical App-V Client configurations and for a little more context and how-to, review the following information:</span></span>
+
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><span data-ttu-id="6b40d-187">Opción de configuración</span><span class="sxs-lookup"><span data-stu-id="6b40d-187">Configuration Setting</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-188">¿Qué hace?</span><span class="sxs-lookup"><span data-stu-id="6b40d-188">What does this do?</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-189">¿Cómo debo usarlo?</span><span class="sxs-lookup"><span data-stu-id="6b40d-189">How should I use it?</span></span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><p><span data-ttu-id="6b40d-190">Modo de almacén de contenido compartido (SCS)</span><span class="sxs-lookup"><span data-stu-id="6b40d-190">Shared Content Store (SCS) Mode</span></span></p>
+<ul>
+<li><p><span data-ttu-id="6b40d-191">Configurable en PowerShell con <strong> set-AppvClientConfiguration </strong> – <strong> SharedContentStoreMode </strong> , o bien</span><span class="sxs-lookup"><span data-stu-id="6b40d-191">Configurable in PowerShell using <strong>Set- AppvClientConfiguration</strong> –<strong>SharedContentStoreMode</strong>, or</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-192">Durante la instalación del cliente de App-V.</span><span class="sxs-lookup"><span data-stu-id="6b40d-192">During installation of the App-V client.</span></span></p></li>
+</ul></td>
+<td align="left"><p><span data-ttu-id="6b40d-193">Al ejecutar el almacén de contenido compartido solo se mantienen los datos de publicación en el disco duro; los demás recursos virtuales de la aplicación se mantienen en la memoria (RAM).</span><span class="sxs-lookup"><span data-stu-id="6b40d-193">When running the shared content store only publishing data is maintained on hard disk; other virtual application assets are maintained in memory (RAM).</span></span></p>
+<p><span data-ttu-id="6b40d-194">Esto ayuda a conservar el almacenamiento local y a minimizar la e/s de disco por segundo (IOPS).</span><span class="sxs-lookup"><span data-stu-id="6b40d-194">This helps to conserve local storage and minimize disk I/O per second (IOPS).</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-195">Esta opción se recomienda cuando hay disponibles conexiones de baja latencia entre el extremo del cliente de App-V y el servidor de contenido de SCS, SAN.</span><span class="sxs-lookup"><span data-stu-id="6b40d-195">This is recommended when low-latency connections are available between the App-V Client endpoint and the SCS content server, SAN.</span></span></p></td>
+</tr>
+<tr class="even">
+<td align="left"><p><span data-ttu-id="6b40d-196">PreserveUserIntegrationsOnLogin</span><span class="sxs-lookup"><span data-stu-id="6b40d-196">PreserveUserIntegrationsOnLogin</span></span></p>
+<ul>
+<li><p><span data-ttu-id="6b40d-197">Configure en el registro en <strong> software de HKEY_LOCAL_MACHINE </strong>  \  <strong> integración del cliente de </strong>  \  <strong> Microsoft </strong>  \  <strong> AppV </strong>  \  <strong> </strong>  \  <strong> </strong> .</span><span class="sxs-lookup"><span data-stu-id="6b40d-197">Configure in the Registry under <strong>HKEY_LOCAL_MACHINE</strong> \ <strong>Software</strong> \ <strong>Microsoft</strong> \ <strong>AppV</strong> \ <strong>Client</strong> \ <strong>Integration</strong>.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-198">Cree el valor DWORD <strong> PreserveUserIntegrationsOnLogin </strong> con el valor <strong> 1 </strong> .</span><span class="sxs-lookup"><span data-stu-id="6b40d-198">Create the DWORD value <strong>PreserveUserIntegrationsOnLogin</strong> with a value of <strong>1</strong>.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-199">Reinicie el servicio de cliente de App-V o reinicie el equipo que ejecuta el cliente de App-V.</span><span class="sxs-lookup"><span data-stu-id="6b40d-199">Restart the App-V client service or restart the computer running the App-V Client.</span></span></p></li>
+</ul></td>
+<td align="left"><p><span data-ttu-id="6b40d-200">Si no ha preconfigurado ( <strong> Add-AppvClientPackage </strong> ) un paquete específico y esta configuración no está configurada, el cliente de App-V se desintegrará \* las integraciones de usuarios persistentes y, a continuación, se volverá a integrar \*.</span><span class="sxs-lookup"><span data-stu-id="6b40d-200">If you have not pre-configured (<strong>Add-AppvClientPackage</strong>) a specific package and this setting is not configured, the App-V Client will de-integrate\* the persisted user integrations, then re-integrate\*.</span></span></p>
+<p><span data-ttu-id="6b40d-201">Para cada paquete que cumpla las condiciones anteriores, lo más eficaz es que el trabajo se realizará durante la publicación o actualización.</span><span class="sxs-lookup"><span data-stu-id="6b40d-201">For every package that meets the above conditions, effectively twice the work will be done during publishing/refresh.</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-202">Si no tiene previsto configurar previamente todos los paquetes de usuario disponibles en la imagen base, use esta configuración.</span><span class="sxs-lookup"><span data-stu-id="6b40d-202">If you don’t plan to pre-configure every available user package in the base image, use this setting.</span></span></p></td>
+</tr>
+<tr class="odd">
+<td align="left"><p><span data-ttu-id="6b40d-203">MaxConcurrentPublishingRefresh</span><span class="sxs-lookup"><span data-stu-id="6b40d-203">MaxConcurrentPublishingRefresh</span></span></p>
+<ul>
+<li><p><span data-ttu-id="6b40d-204">Configure en el registro en <strong> HKEY_LOCAL_MACHINE </strong> &lt; &gt; software eficaz publicación de </strong>  \  <strong> </strong>  \  <strong> </strong> &lt; cliente strong de Microsoft AppV &gt; </strong>  \  <strong> </strong> .</span><span class="sxs-lookup"><span data-stu-id="6b40d-204">Configure in the Registry under <strong>HKEY_LOCAL_MACHINE</strong> &lt;strong&gt;Software</strong> \ <strong>Microsoft</strong> \ <strong>AppV</strong> &lt;strong&gt;Client</strong> \ <strong>Publishing</strong>.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-205">Cree el valor DWORD <strong> MaxConcurrentPublishingrefresh </strong> con el número máximo deseado de actualizaciones de publicación simultáneas.</span><span class="sxs-lookup"><span data-stu-id="6b40d-205">Create the DWORD value <strong>MaxConcurrentPublishingrefresh</strong> with the desired maximum number of concurrent publishing refreshes.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-206">No es necesario reiniciar el servicio de cliente de App-V ni el equipo.</span><span class="sxs-lookup"><span data-stu-id="6b40d-206">The App-V client service and computer do not need to be restarted.</span></span></p></li>
+</ul></td>
+<td align="left"><p><span data-ttu-id="6b40d-207">Esta configuración determina el número de usuarios que pueden realizar una actualización/sincronización de publicación al mismo tiempo.</span><span class="sxs-lookup"><span data-stu-id="6b40d-207">This setting determines the number of users that can perform a publishing refresh/sync at the same time.</span></span> <span data-ttu-id="6b40d-208">El valor predeterminado es sin límite.</span><span class="sxs-lookup"><span data-stu-id="6b40d-208">The default setting is no limit.</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-209">Limitar el número de actualizaciones de publicación simultáneas evita un uso excesivo de la CPU que podría afectar al rendimiento del equipo.</span><span class="sxs-lookup"><span data-stu-id="6b40d-209">Limiting the number of concurrent publishing refreshes prevents excessive CPU usage that could impact computer performance.</span></span> <span data-ttu-id="6b40d-210">Este límite se recomienda en un entorno de RDS, en el que varios usuarios pueden iniciar sesión en el mismo equipo al mismo tiempo y realizar una sincronización de actualización de publicación.</span><span class="sxs-lookup"><span data-stu-id="6b40d-210">This limit is recommended in an RDS environment, where multiple users can log in to the same computer at the same time and perform a publishing refresh sync.</span></span></p>
+<p><span data-ttu-id="6b40d-211">Si se alcanza el umbral de actualización de publicaciones simultáneas, el tiempo necesario para publicar nuevas aplicaciones y ponerlas a disposición de los usuarios finales después de iniciar sesión podría tardar un período de tiempo indeterminado.</span><span class="sxs-lookup"><span data-stu-id="6b40d-211">If the concurrent publishing refresh threshold is reached, the time required to publish new applications and make them available to end users after they log in could take an indeterminate amount of time.</span></span></p></td>
+</tr>
+</tbody>
+</table>
+
+
+
+### <span data-ttu-id="6b40d-212">Configurar la solución de UE-V para el enfoque de App-V</span><span class="sxs-lookup"><span data-stu-id="6b40d-212">Configure UE-V solution for App-V Approach</span></span>
+
+<span data-ttu-id="6b40d-213">Se recomienda usar la virtualización de la experiencia del usuario de Microsoft (UE-V) para capturar y centralizar la configuración de la aplicación y del sistema operativo Windows de un usuario específico.</span><span class="sxs-lookup"><span data-stu-id="6b40d-213">We recommend using Microsoft User Experience Virtualization (UE-V) to capture and centralize application settings and Windows operating system settings for a specific user.</span></span> <span data-ttu-id="6b40d-214">Esta configuración se aplicará a los diferentes equipos a los que el usuario tiene acceso, como equipos de escritorio, equipos portátiles y sesiones de infraestructura de escritorio virtual (VDI).</span><span class="sxs-lookup"><span data-stu-id="6b40d-214">These settings are then applied to the different computers that are accessed by the user, including desktop computers, laptop computers, and virtual desktop infrastructure (VDI) sessions.</span></span> <span data-ttu-id="6b40d-215">UE-V está optimizado para los escenarios de RDS y VDI.</span><span class="sxs-lookup"><span data-stu-id="6b40d-215">UE-V is optimized for RDS and VDI scenarios.</span></span>
+
+<span data-ttu-id="6b40d-216">Para obtener más información, vea [Introducción a la virtualización de la experiencia del usuario 2,0](https://technet.microsoft.com/library/dn458926.aspx)</span><span class="sxs-lookup"><span data-stu-id="6b40d-216">For more information see [Getting Started With User Experience Virtualization 2.0](https://technet.microsoft.com/library/dn458926.aspx)</span></span>
+
+<span data-ttu-id="6b40d-217">En esencia, todo lo que se necesita es instalar el cliente UE-V y descargar la siguiente plantilla de configuración de App-V de Microsoft de la [Galería de plantillas de Microsoft User Experience Virtualization (UE-V)](https://gallery.technet.microsoft.com/Authored-UE-V-Settings-bb442a33).</span><span class="sxs-lookup"><span data-stu-id="6b40d-217">In essence all that is required is to install the UE-V client and download the following Microsoft authored App-V settings template from the [Microsoft User Experience Virtualization (UE-V) template gallery](https://gallery.technet.microsoft.com/Authored-UE-V-Settings-bb442a33).</span></span> <span data-ttu-id="6b40d-218">Registrar la plantilla.</span><span class="sxs-lookup"><span data-stu-id="6b40d-218">Register the template.</span></span> <span data-ttu-id="6b40d-219">Para obtener más información sobre las plantillas de UE-V, vea [el recurso específico de UE-v para adquirir y registrar la plantilla](https://technet.microsoft.com/library/dn458926.aspx).</span><span class="sxs-lookup"><span data-stu-id="6b40d-219">For more information around UE-V templates see [The UE-V specific resource for acquiring and registering the template](https://technet.microsoft.com/library/dn458926.aspx).</span></span>
+
+**<span data-ttu-id="6b40d-220">Nota</span><span class="sxs-lookup"><span data-stu-id="6b40d-220">Note</span></span>**  
+<span data-ttu-id="6b40d-221">Si no se realiza un paso de configuración adicional, la virtualización del entorno de usuario de Microsoft (UE-V) no podrá sincronizar los accesos directos del menú Inicio (archivos. lnk) en el equipo de destino.</span><span class="sxs-lookup"><span data-stu-id="6b40d-221">Without performing an additional configuration step, the Microsoft User Environment Virtualization (UE-V) will not be able to synchronize the Start menu shortcuts (.lnk files) on the target computer.</span></span> <span data-ttu-id="6b40d-222">El tipo de archivo. lnk se excluye de forma predeterminada.</span><span class="sxs-lookup"><span data-stu-id="6b40d-222">The .lnk file type is excluded by default.</span></span>
+
+<span data-ttu-id="6b40d-223">UE-V solo admitirá la eliminación del tipo de archivo. lnk de la lista de exclusión en los escenarios de RDS y VDI, donde cada dispositivo de usuario tendrá el mismo conjunto de aplicaciones instaladas en la misma ubicación y todos los archivos. lnk serán válidos para todos los dispositivos de los usuarios.</span><span class="sxs-lookup"><span data-stu-id="6b40d-223">UE-V will only support removing the .lnk file type from the exclusion list in the RDS and VDI scenarios, where every user’s device will have the same set of applications installed to the same location and every .lnk file is valid for all the users’ devices.</span></span> <span data-ttu-id="6b40d-224">Por ejemplo, UE-V no admitirá actualmente los dos escenarios siguientes, porque el resultado neto será que el acceso directo será válido en uno, pero no en todos los dispositivos.</span><span class="sxs-lookup"><span data-stu-id="6b40d-224">For example, UE-V would not currently support the following 2 scenarios, because the net result will be that the shortcut will be valid on one but not all devices.</span></span>
+
+-   <span data-ttu-id="6b40d-225">Si un usuario tiene una aplicación instalada en un dispositivo con archivos. lnk habilitado y la misma aplicación nativa instalada en otro dispositivo en una raíz de instalación diferente con archivos. lnk habilitados.</span><span class="sxs-lookup"><span data-stu-id="6b40d-225">If a user has an application installed on one device with .lnk files enabled and the same native application installed on another device to a different installation root with .lnk files enabled.</span></span>
+
+-   <span data-ttu-id="6b40d-226">Si un usuario tiene una aplicación instalada en un dispositivo, pero no otra con los archivos. lnk habilitados.</span><span class="sxs-lookup"><span data-stu-id="6b40d-226">If a user has an application installed on one device but not another with .lnk files enabled.</span></span>
+
+
+
+**<span data-ttu-id="6b40d-227">Importante</span><span class="sxs-lookup"><span data-stu-id="6b40d-227">Important</span></span>**  
+<span data-ttu-id="6b40d-228">En este tema se describe cómo cambiar el registro de Windows mediante el editor del registro.</span><span class="sxs-lookup"><span data-stu-id="6b40d-228">This topic describes how to change the Windows registry by using Registry Editor.</span></span> <span data-ttu-id="6b40d-229">Si cambia incorrectamente el registro de Windows, puede causar serios problemas que le obliguen a reinstalar Windows.</span><span class="sxs-lookup"><span data-stu-id="6b40d-229">If you change the Windows registry incorrectly, you can cause serious problems that might require you to reinstall Windows.</span></span> <span data-ttu-id="6b40d-230">Debe hacer una copia de seguridad de los archivos de registro (System. dat y User. dat) antes de cambiar el registro.</span><span class="sxs-lookup"><span data-stu-id="6b40d-230">You should make a backup copy of the registry files (System.dat and User.dat) before you change the registry.</span></span> <span data-ttu-id="6b40d-231">Microsoft no puede garantizar que los problemas que puedan surgir al cambiar el registro se puedan resolver.</span><span class="sxs-lookup"><span data-stu-id="6b40d-231">Microsoft cannot guarantee that the problems that might occur when you change the registry can be resolved.</span></span> <span data-ttu-id="6b40d-232">Cambie el registro bajo su propia responsabilidad.</span><span class="sxs-lookup"><span data-stu-id="6b40d-232">Change the registry at your own risk.</span></span>
+
+
+
+<span data-ttu-id="6b40d-233">Con el editor del registro de Microsoft (regedit.exe), vaya a **HKEY \ _LOCAL \ _MACHINE**  \\  **software**  \\  **Microsoft**  \\  **UEV**  \\  **Agent**  \\  **Configuration**  \\  **ExcludedFileTypes** y quite **. lnk** de los tipos de archivos excluidos.</span><span class="sxs-lookup"><span data-stu-id="6b40d-233">Using the Microsoft Registry Editor (regedit.exe), navigate to **HKEY\_LOCAL\_MACHINE** \\ **Software** \\ **Microsoft** \\ **UEV** \\ **Agent** \\ **Configuration** \\ **ExcludedFileTypes** and remove **.lnk** from the excluded file types.</span></span>
+
+**<span data-ttu-id="6b40d-234">Configurar otra solución de administración de perfiles de usuario (UPM) para el enfoque de App-V</span><span class="sxs-lookup"><span data-stu-id="6b40d-234">Configure other User Profile Management (UPM) solution for App-V Approach</span></span>**
+
+<span data-ttu-id="6b40d-235">La expectativa en un entorno con estado es que se implementa una solución de UPM y puede admitir la persistencia de datos de usuario entre sesiones y entre inicios de sesión.</span><span class="sxs-lookup"><span data-stu-id="6b40d-235">The expectation in a stateful environment is that a UPM solution is implemented and can support persistence of user data across sessions and between logins.</span></span>
+
+<span data-ttu-id="6b40d-236">Los requisitos para la solución de UPM son los siguientes.</span><span class="sxs-lookup"><span data-stu-id="6b40d-236">The requirements for the UPM solution are as follows.</span></span>
+
+<span data-ttu-id="6b40d-237">Para habilitar una experiencia de inicio de sesión optimizada, por ejemplo, el enfoque de App-V 5,1 para el usuario, la solución debe ser capaz de:</span><span class="sxs-lookup"><span data-stu-id="6b40d-237">To enable an optimized login experience, for example the App-V 5.1 approach for the user, the solution must be capable of:</span></span>
+
+-   <span data-ttu-id="6b40d-238">Conservar las siguientes integraciones de usuarios como parte del perfil de usuario/persona.</span><span class="sxs-lookup"><span data-stu-id="6b40d-238">Persisting the below user integrations as part of the user profile/persona.</span></span>
+
+-   <span data-ttu-id="6b40d-239">Activación de una sincronización de perfiles de usuario en el inicio de sesión (o inicio de la aplicación), que puede garantizar la aplicación de todas las integraciones del usuario antes de que se inicie la publicación o actualización, o bien,</span><span class="sxs-lookup"><span data-stu-id="6b40d-239">Triggering a user profile sync on login (or application start), which can guarantee that all user integrations are applied before publishing/refresh begin, or,</span></span>
+
+-   <span data-ttu-id="6b40d-240">Adjuntar y separar un disco de Perfil de usuario (UPD) o una tecnología similar que contiene las integraciones del usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-240">Attaching and detaching a user profile disk (UPD) or similar technology that contains the user integrations.</span></span>
+
+    **<span data-ttu-id="6b40d-241">Nota</span><span class="sxs-lookup"><span data-stu-id="6b40d-241">Note</span></span>**  
+    <span data-ttu-id="6b40d-242">App-V es compatible cuando se usa UPD solo cuando se almacena todo el perfil en el disco de Perfil de usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-242">App-V is supported when using UPD only when the entire profile is stored on the user profile disk.</span></span>
+
+    <span data-ttu-id="6b40d-243">Los paquetes de App-V no se admiten cuando se usa UPD con las carpetas seleccionadas almacenadas en el disco de Perfil de usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-243">App-V packages are not supported when using UPD with selected folders stored in the user profile disk.</span></span> <span data-ttu-id="6b40d-244">El controlador copiar en escritura no maneja las carpetas seleccionadas de UPD.</span><span class="sxs-lookup"><span data-stu-id="6b40d-244">The Copy on Write driver does not handle UPD selected folders.</span></span>
+
+
+
+-   <span data-ttu-id="6b40d-245">Captura de cambios en las ubicaciones, que constituyen las integraciones del usuario antes de cerrar sesión.</span><span class="sxs-lookup"><span data-stu-id="6b40d-245">Capturing changes to the locations, which constitute the user integrations, prior to session logoff.</span></span>
+
+<span data-ttu-id="6b40d-246">Con App-V 5,1 al agregar un servidor de publicación (**Add-AppvPublishingServer**) puede configurar la sincronización para, por ejemplo, la actualización durante el inicio de sesión y/o después de un intervalo de actualización determinado.</span><span class="sxs-lookup"><span data-stu-id="6b40d-246">With App-V 5.1 when you add a publishing server (**Add-AppvPublishingServer**) you can configure synchronization, for example refresh during log on and/or after a specified refresh interval.</span></span> <span data-ttu-id="6b40d-247">En ambos casos se crea una tarea programada.</span><span class="sxs-lookup"><span data-stu-id="6b40d-247">In both cases a scheduled task is created.</span></span>
+
+<span data-ttu-id="6b40d-248">En versiones anteriores de App-V 5,1, las tareas programadas se configuraban con un VBScript que iniciaba el usuario y la actualización global.</span><span class="sxs-lookup"><span data-stu-id="6b40d-248">In previous versions of App-V 5.1, both scheduled tasks were configured using a VBScript that would initiate the user and global refresh.</span></span> <span data-ttu-id="6b40d-249">Con el paquete de revisiones 4 para Application Virtualization 5,0 SP2, la actualización de usuario al iniciar sesión ha sido iniciada por **SyncAppvPublishingServer.exe**.</span><span class="sxs-lookup"><span data-stu-id="6b40d-249">With Hotfix Package 4 for Application Virtualization 5.0 SP2 the user refresh on log on was initiated by **SyncAppvPublishingServer.exe**.</span></span> <span data-ttu-id="6b40d-250">Este cambio se presentó para proporcionar soluciones de UPM para un proceso de desencadenamiento.</span><span class="sxs-lookup"><span data-stu-id="6b40d-250">This change was introduced to provide UPM solutions a trigger process.</span></span> <span data-ttu-id="6b40d-251">Este proceso retrasa la/Refresh de publicación para permitir que la solución de UPM aplique las integraciones del usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-251">This process delays the publish /refresh to allow the UPM solution to apply the user integrations.</span></span> <span data-ttu-id="6b40d-252">Se cerrará cuando se complete la publicación/actualización.</span><span class="sxs-lookup"><span data-stu-id="6b40d-252">It will exit once the publishing/refresh is complete.</span></span>
+
+**<span data-ttu-id="6b40d-253">Integraciones de usuarios</span><span class="sxs-lookup"><span data-stu-id="6b40d-253">User Integrations</span></span>**
+
+<span data-ttu-id="6b40d-254">Registro: HKEY \ _CURRENT \ _USER</span><span class="sxs-lookup"><span data-stu-id="6b40d-254">Registry – HKEY\_CURRENT\_USER</span></span>
+
+-   <span data-ttu-id="6b40d-255">Ruta de acceso-Software\\Classes</span><span class="sxs-lookup"><span data-stu-id="6b40d-255">Path - Software\\Classes</span></span>
+
+    <span data-ttu-id="6b40d-256">Excluir: configuración local, ActivatableClasses, AppX \ \*</span><span class="sxs-lookup"><span data-stu-id="6b40d-256">Exclude: Local Settings, ActivatableClasses, AppX\*</span></span>
+
+-   <span data-ttu-id="6b40d-257">Ruta de acceso-Software\\Microsoft\\AppV</span><span class="sxs-lookup"><span data-stu-id="6b40d-257">Path - Software\\Microsoft\\AppV</span></span>
+
+-   <span data-ttu-id="6b40d-258">Ruta de acceso: rutas Software\\Microsoft\\Windows\\CurrentVersion\\App</span><span class="sxs-lookup"><span data-stu-id="6b40d-258">Path- Software\\Microsoft\\Windows\\CurrentVersion\\App Paths</span></span>
+
+**<span data-ttu-id="6b40d-259">Ubicaciones de archivos</span><span class="sxs-lookup"><span data-stu-id="6b40d-259">File Locations</span></span>**
+
+-   <span data-ttu-id="6b40d-260">Raíz: "variable de entorno" APPDATA</span><span class="sxs-lookup"><span data-stu-id="6b40d-260">Root – “Environment Variable” APPDATA</span></span>
+
+    <span data-ttu-id="6b40d-261">Ruta: Microsoft\\AppV\\Client\\Catalog</span><span class="sxs-lookup"><span data-stu-id="6b40d-261">Path – Microsoft\\AppV\\Client\\Catalog</span></span>
+
+-   <span data-ttu-id="6b40d-262">Raíz: "variable de entorno" APPDATA</span><span class="sxs-lookup"><span data-stu-id="6b40d-262">Root – “Environment Variable” APPDATA</span></span>
+
+    <span data-ttu-id="6b40d-263">Ruta: Microsoft\\AppV\\Client\\Integration</span><span class="sxs-lookup"><span data-stu-id="6b40d-263">Path – Microsoft\\AppV\\Client\\Integration</span></span>
+
+-   <span data-ttu-id="6b40d-264">Raíz: "variable de entorno" APPDATA</span><span class="sxs-lookup"><span data-stu-id="6b40d-264">Root – “Environment Variable” APPDATA</span></span>
+
+    <span data-ttu-id="6b40d-265">Ruta: Microsoft\\Windows\\Start Menu\\Programs</span><span class="sxs-lookup"><span data-stu-id="6b40d-265">Path - Microsoft\\Windows\\Start Menu\\Programs</span></span>
+
+-   <span data-ttu-id="6b40d-266">(Para conservar todos los accesos directos del escritorio, virtuales y no virtuales)</span><span class="sxs-lookup"><span data-stu-id="6b40d-266">(To persist all desktop shortcuts, virtual and non-virtual)</span></span>
+
+    <span data-ttu-id="6b40d-267">Raíz: "KnownFolder" {B4BFCC3A-DB2C-424C-B029-7FE99A87C641} FileMask-\ \*. lnk</span><span class="sxs-lookup"><span data-stu-id="6b40d-267">Root - “KnownFolder” {B4BFCC3A-DB2C-424C-B029-7FE99A87C641}FileMask - \*.lnk</span></span>
+
+**<span data-ttu-id="6b40d-268">Virtualización de la experiencia del usuario de Microsoft (UE-V)</span><span class="sxs-lookup"><span data-stu-id="6b40d-268">Microsoft User Experience Virtualization (UE-V)</span></span>**
+
+<span data-ttu-id="6b40d-269">Además, le recomendamos que use la virtualización de la experiencia del usuario de Microsoft (UE-V) para capturar y centralizar la configuración de la aplicación y del sistema operativo Windows para un usuario específico.</span><span class="sxs-lookup"><span data-stu-id="6b40d-269">Additionally, we recommend using Microsoft User Experience Virtualization (UE-V) to capture and centralize application settings and Windows operating system settings for a specific user.</span></span> <span data-ttu-id="6b40d-270">Esta configuración se aplicará a los diferentes equipos a los que el usuario tiene acceso, como equipos de escritorio, equipos portátiles y sesiones de infraestructura de escritorio virtual (VDI).</span><span class="sxs-lookup"><span data-stu-id="6b40d-270">These settings are then applied to the different computers that are accessed by the user, including desktop computers, laptop computers, and virtual desktop infrastructure (VDI) sessions.</span></span>
+
+<span data-ttu-id="6b40d-271">Para obtener más información, vea [Introducción a la virtualización de la experiencia del usuario 1,0](https://technet.microsoft.com/library/jj680015.aspx) y [compartir plantillas de ubicación de configuración con la galería de plantillas de UE-V](https://technet.microsoft.com/library/jj679972.aspx).</span><span class="sxs-lookup"><span data-stu-id="6b40d-271">For more information see [Getting Started With User Experience Virtualization 1.0](https://technet.microsoft.com/library/jj680015.aspx) and [Sharing Settings Location Templates with the UE-V Template Gallery](https://technet.microsoft.com/library/jj679972.aspx).</span></span>
+
+### <a href="" id="bkmk-uewt"></a><span data-ttu-id="6b40d-272">Tutorial de experiencia del usuario</span><span class="sxs-lookup"><span data-stu-id="6b40d-272">User Experience Walk-through</span></span>
+
+<span data-ttu-id="6b40d-273">Este es un tutorial paso a paso de las operaciones de App-V y UPM y las expectativas que los usuarios deben esperar.</span><span class="sxs-lookup"><span data-stu-id="6b40d-273">This following is a step-by-step walk-through of the App-V and UPM operations and the expectations users should expect.</span></span>
+
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><span data-ttu-id="6b40d-274">Optimizado para el rendimiento</span><span class="sxs-lookup"><span data-stu-id="6b40d-274">Optimized for Performance</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-275">Optimizado para el almacenamiento</span><span class="sxs-lookup"><span data-stu-id="6b40d-275">Optimized for Storage</span></span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><p><span data-ttu-id="6b40d-276">Después de implementar este enfoque en el entorno VDI/RDSH, en el primer inicio de sesión,</span><span class="sxs-lookup"><span data-stu-id="6b40d-276">After implementing this approach in the VDI/RDSH environment, on first login,</span></span></p>
+<ul>
+<li><p><span data-ttu-id="6b40d-277">Tarea Se inicia la publicación o actualización de un usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-277">(Operation) A user-publishing/refresh is initiated.</span></span> <span data-ttu-id="6b40d-278">(Expectativa) Si es la primera vez que un usuario ha publicado aplicaciones virtuales (por ejemplo, no persistentes), esta tendrá la duración normal de una publicación o actualización.</span><span class="sxs-lookup"><span data-stu-id="6b40d-278">(Expectation) If this is the first time a user has published virtual applications (e.g. non-persistent), this will take the usual duration of a publishing/refresh.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-279">Tarea Después de la publicación/actualización, la solución UPM captura las integraciones de usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-279">(Operation) After the publishing/refresh, the UPM solution captures the user integrations.</span></span> <span data-ttu-id="6b40d-280">(Expectativa) En función de cómo esté configurada la solución UPM, esto puede suceder como parte del proceso de cierre de sesión.</span><span class="sxs-lookup"><span data-stu-id="6b40d-280">(Expectation) Depending on how the UPM solution is configured, this may occur as part of the logoff process.</span></span> <span data-ttu-id="6b40d-281">Esto provocará una sobrecarga similar a la de mantener el estado del usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-281">This will incur the same/similar overhead as persisting the user state.</span></span></p></li>
+</ul>
+<p><span data-ttu-id="6b40d-282">En inicios de sesión posteriores:</span><span class="sxs-lookup"><span data-stu-id="6b40d-282">On subsequent logins:</span></span></p>
+<ul>
+<li><p><span data-ttu-id="6b40d-283">Tarea El UPM de soluciones aplica las integraciones del usuario al sistema antes de la publicación/actualización.</span><span class="sxs-lookup"><span data-stu-id="6b40d-283">(Operation) UPM solution applies the user integrations to the system prior to publishing/refresh.</span></span></p>
+<p><span data-ttu-id="6b40d-284">(Expectativa) Habrá accesos directos en el escritorio o en el menú Inicio, que funcionan inmediatamente.</span><span class="sxs-lookup"><span data-stu-id="6b40d-284">(Expectation) There will be shortcuts present on the desktop, or in the start menu, which work immediately.</span></span> <span data-ttu-id="6b40d-285">Cuando se completa la publicación/actualización (es decir, cambian los derechos de paquete), algunos pueden desaparecer.</span><span class="sxs-lookup"><span data-stu-id="6b40d-285">When the publishing/refresh completes (i.e., package entitlements change), some may go away.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-286">Tarea La publicación/actualización procesará las operaciones de no publicación y publicación de los cambios en los derechos de paquete de usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-286">(Operation) Publishing/refresh will process un-publish and publish operations for changes in user package entitlements.</span></span> <span data-ttu-id="6b40d-287">(Expectativa) Si no hay cambios de derecho, publishing1 se completará en segundos.</span><span class="sxs-lookup"><span data-stu-id="6b40d-287">(Expectation) If there are no entitlement changes, publishing1 will complete in seconds.</span></span> <span data-ttu-id="6b40d-288">De lo contrario, la publicación o actualización aumentará en relación con el número y la complejidad \* de las aplicaciones virtuales.</span><span class="sxs-lookup"><span data-stu-id="6b40d-288">Otherwise, the publishing/refresh will increase relative to the number and complexity\* of virtual applications</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-289">Tarea La solución UPM capturará las integraciones del usuario de nuevo al cerrar sesión.</span><span class="sxs-lookup"><span data-stu-id="6b40d-289">(Operation) UPM solution will capture user integrations again at logoff.</span></span> <span data-ttu-id="6b40d-290">(Expectativa) Igual que el anterior.</span><span class="sxs-lookup"><span data-stu-id="6b40d-290">(Expectation) Same as previous.</span></span></p></li>
+</ul>
+<p><span data-ttu-id="6b40d-291">¹ la operación de publicación ( <strong> publicar-AppVClientPackage </strong> ) agrega entradas al catálogo de usuarios, asigna derechos al usuario, identifica el almacén local y termina completando los pasos de integración.</span><span class="sxs-lookup"><span data-stu-id="6b40d-291">¹ The publishing operation (<strong>Publish-AppVClientPackage</strong>) adds entries to the user catalog, maps entitlement to the user, identifies the local store, and finishes by completing any integration steps.</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-292">Después de implementar este enfoque en el entorno VDI/RDSH, en el primer inicio de sesión,</span><span class="sxs-lookup"><span data-stu-id="6b40d-292">After implementing this approach in the VDI/RDSH environment, on first login,</span></span></p>
+<ul>
+<li><p><span data-ttu-id="6b40d-293">Tarea Se inicia la publicación o actualización de un usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-293">(Operation) A user-publishing/refresh is initiated.</span></span> <span data-ttu-id="6b40d-294">(Expectativa)</span><span class="sxs-lookup"><span data-stu-id="6b40d-294">(Expectation)</span></span></p>
+<ul>
+<li><p><span data-ttu-id="6b40d-295">Si es la primera vez que un usuario ha publicado aplicaciones virtuales (por ejemplo, no persistentes), esta tendrá la duración normal de una publicación o actualización.</span><span class="sxs-lookup"><span data-stu-id="6b40d-295">If this is the first time a user has published virtual applications (e.g., non-persistent), this will take the usual duration of a publishing/refresh.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-296">El primero y los inicios de sesión subsiguientes se verán afectados por la preconfiguración de paquetes (Agregar/actualizar).</span><span class="sxs-lookup"><span data-stu-id="6b40d-296">First and subsequent logins will be impacted by pre-configuring of packages (add/refresh).</span></span></p>
+<p></p></li>
+</ul></li>
+<li><p><span data-ttu-id="6b40d-297">Tarea Después de la publicación/actualización, la solución UPM captura las integraciones de usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-297">(Operation) After the publishing/refresh, the UPM solution captures the user integrations.</span></span> <span data-ttu-id="6b40d-298">(Expectativa) En función de cómo esté configurada la solución UPM, esto puede suceder como parte del proceso de cierre de sesión.</span><span class="sxs-lookup"><span data-stu-id="6b40d-298">(Expectation) Depending on how the UPM solution is configured, this may occur as part of the logoff process.</span></span> <span data-ttu-id="6b40d-299">Esto provocará una sobrecarga similar a la de mantener el estado del usuario</span><span class="sxs-lookup"><span data-stu-id="6b40d-299">This will incur the same/similar overhead as persisting the user state</span></span></p></li>
+</ul>
+<p><span data-ttu-id="6b40d-300">En inicios de sesión posteriores:</span><span class="sxs-lookup"><span data-stu-id="6b40d-300">On subsequent logins:</span></span></p>
+<ul>
+<li><p><span data-ttu-id="6b40d-301">Tarea El UPM de soluciones aplica las integraciones del usuario al sistema antes de la publicación/actualización.</span><span class="sxs-lookup"><span data-stu-id="6b40d-301">(Operation) UPM solution applies the user integrations to the system prior to publishing/refresh.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-302">Tarea Agregar/actualizar debe configurar previamente todas las aplicaciones de destino del usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-302">(Operation) Add/refresh must pre-configure all user targeted applications.</span></span> <span data-ttu-id="6b40d-303">(Expectativa)</span><span class="sxs-lookup"><span data-stu-id="6b40d-303">(Expectation)</span></span></p>
+<ul>
+<li><p><span data-ttu-id="6b40d-304">Esto puede aumentar significativamente el tiempo de disponibilidad de las aplicaciones (en el orden de 10 segundos).</span><span class="sxs-lookup"><span data-stu-id="6b40d-304">This may increase the time to application availability significantly (on the order of 10’s of seconds).</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-305">Esto incrementará el tiempo de actualización de la publicación en relación con el número y la complejidad \* de las aplicaciones virtuales.</span><span class="sxs-lookup"><span data-stu-id="6b40d-305">This will increase the publishing refresh time relative to the number and complexity\* of virtual applications.</span></span></p>
+<p></p></li>
+</ul></li>
+<li><p><span data-ttu-id="6b40d-306">Tarea La publicación/actualización procesará las operaciones de no publicación y publicación de los cambios en los derechos de paquete de usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-306">(Operation) Publishing/refresh will process un-publish and publish operations for changes to user package entitlements.</span></span></p></li>
+</ul></td>
+</tr>
+</tbody>
+</table>
+
+
+
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><span data-ttu-id="6b40d-307">Consecuencia</span><span class="sxs-lookup"><span data-stu-id="6b40d-307">Outcome</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-308">Consecuencia</span><span class="sxs-lookup"><span data-stu-id="6b40d-308">Outcome</span></span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><p></p>
+<ul>
+<li><p><span data-ttu-id="6b40d-309">Como las integraciones de usuarios se conservan por completo, no habrá ningún trabajo, por ejemplo, integración de la publicación/actualización para completarse.</span><span class="sxs-lookup"><span data-stu-id="6b40d-309">Because the user integrations are entirely preserved, there will be no work for example, integration for the publishing/refresh to complete.</span></span> <span data-ttu-id="6b40d-310">Todas las aplicaciones virtuales estarán disponibles en un plazo de segundos a partir de un inicio de sesión.</span><span class="sxs-lookup"><span data-stu-id="6b40d-310">All virtual applications will be available within seconds of login.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-311">La publicación/actualización procesará los cambios que se realicen a los usuarios titulados aplicaciones virtuales que afecten a la experiencia.</span><span class="sxs-lookup"><span data-stu-id="6b40d-311">The publishing/refresh will process changes to the users entitled virtual applications which impacts the experience.</span></span></p></li>
+</ul></td>
+<td align="left"><p><span data-ttu-id="6b40d-312">Como la adición/actualización debe volver a configurar todas las aplicaciones virtuales en la VM, se extenderá el tiempo de actualización de publicación en cada inicio de sesión.</span><span class="sxs-lookup"><span data-stu-id="6b40d-312">Because the add/refresh must re-configure all the virtual applications to the VM, the publishing refresh time on every login will be extended.</span></span></p></td>
+</tr>
+</tbody>
+</table>
+
+
+
+### <a href="" id="bkmk-plc"></a><span data-ttu-id="6b40d-313">Impacto en el ciclo de vida del paquete</span><span class="sxs-lookup"><span data-stu-id="6b40d-313">Impact to Package Life Cycle</span></span>
+
+<span data-ttu-id="6b40d-314">La actualización de un paquete es un aspecto crucial del ciclo de vida del paquete.</span><span class="sxs-lookup"><span data-stu-id="6b40d-314">Upgrading a package is a crucial aspect of the package lifecycle.</span></span> <span data-ttu-id="6b40d-315">Para ayudar a garantizar que los usuarios tengan acceso a los paquetes de aplicaciones virtuales actualizadas (publicadas) o degradadas (no publicadas) apropiados, se recomienda que actualice la imagen base para reflejar estos cambios.</span><span class="sxs-lookup"><span data-stu-id="6b40d-315">To help guarantee users have access to the appropriate upgraded (published) or downgraded (un-published) virtual application packages, it is recommended you update the base image to reflect these changes.</span></span> <span data-ttu-id="6b40d-316">Para comprender por qué revisar la siguiente sección:</span><span class="sxs-lookup"><span data-stu-id="6b40d-316">To understand why review the following section:</span></span>
+
+<span data-ttu-id="6b40d-317">App-V 5,0 SP2 introdujo el concepto de Estados pendientes.</span><span class="sxs-lookup"><span data-stu-id="6b40d-317">App-V 5.0 SP2 introduced the concept of pending states.</span></span> <span data-ttu-id="6b40d-318">En el pasado,</span><span class="sxs-lookup"><span data-stu-id="6b40d-318">In the past,</span></span>
+
+-   <span data-ttu-id="6b40d-319">Si un administrador cambió los derechos o creó una nueva versión de un paquete (actualizado) y durante una publicación o actualización, el paquete se encontraba en uso, la operación de no publicar o publicar, respectivamente, fallaría.</span><span class="sxs-lookup"><span data-stu-id="6b40d-319">If an administrator changed entitlements or created a new version of a package (upgraded) and during a publishing/refresh that package was in-use, the un-publish or publish operation, respectively, would fail.</span></span>
+
+-   <span data-ttu-id="6b40d-320">Ahora, si un paquete está en uso, la operación quedará pendiente.</span><span class="sxs-lookup"><span data-stu-id="6b40d-320">Now, if a package is in-use the operation will be pended.</span></span> <span data-ttu-id="6b40d-321">Las operaciones de no publicación y de pendiente de publicación se procesarán al reiniciar el servicio o si se emite otro comando de publicación o no publicación.</span><span class="sxs-lookup"><span data-stu-id="6b40d-321">The un-publish and publish-pend operations will be processed on service restart or if another publish or un-publish command is issued.</span></span> <span data-ttu-id="6b40d-322">En el último caso, si la aplicación virtual se está usando de otra forma, la aplicación virtual permanecerá en estado pendiente.</span><span class="sxs-lookup"><span data-stu-id="6b40d-322">In the latter case, if the virtual application is in-use otherwise, the virtual application will remain in a pending state.</span></span> <span data-ttu-id="6b40d-323">Para paquetes publicados globalmente, a menudo es necesario reiniciar (o reiniciar el servicio).</span><span class="sxs-lookup"><span data-stu-id="6b40d-323">For globally published packages, a restart (or service restart) often needed.</span></span>
+
+<span data-ttu-id="6b40d-324">En un entorno no persistente, es improbable que se procesen estas operaciones pendientes.</span><span class="sxs-lookup"><span data-stu-id="6b40d-324">In a non-persistent environment, it is unlikely these pended operations will be processed.</span></span> <span data-ttu-id="6b40d-325">Las operaciones pendientes, por ejemplo las tareas se capturan en **HKEY \ _CURRENT \ _USER**  \\  **software**  \\  **Microsoft**  \\  **AppV**  \\  **Client**  \\  **PendingTasks**.</span><span class="sxs-lookup"><span data-stu-id="6b40d-325">The pended operations, for example tasks are captured under **HKEY\_CURRENT\_USER** \\ **Software** \\ **Microsoft** \\ **AppV** \\ **Client** \\ **PendingTasks**.</span></span> <span data-ttu-id="6b40d-326">Aunque esta ubicación es persistida por la solución UPM, si no se aplica al entorno antes del inicio de sesión, no se procesará.</span><span class="sxs-lookup"><span data-stu-id="6b40d-326">Although this location is persisted by the UPM solution, if it is not applied to the environment prior to log on, it will not be processed.</span></span>
+
+### <a href="" id="bkmk-evdi"></a><span data-ttu-id="6b40d-327">Mejorar la experiencia de VDI mediante el ajuste de optimización del rendimiento</span><span class="sxs-lookup"><span data-stu-id="6b40d-327">Enhancing the VDI Experience through Performance Optimization Tuning</span></span>
+
+<span data-ttu-id="6b40d-328">La siguiente sección contiene listas con información sobre las descargas y la documentación de Microsoft que pueden ser útiles al optimizar su entorno para mejorar el rendimiento.</span><span class="sxs-lookup"><span data-stu-id="6b40d-328">The following section contains lists with information about Microsoft documentation and downloads that may be useful when optimizing your environment for performance.</span></span>
+
+**<span data-ttu-id="6b40d-329">Blog y scripts de .NET NGEN (muy recomendable)</span><span class="sxs-lookup"><span data-stu-id="6b40d-329">.NET NGEN Blog and Script (Highly Recommended)</span></span>**
+
+<span data-ttu-id="6b40d-330">Acerca de la tecnología NGEN</span><span class="sxs-lookup"><span data-stu-id="6b40d-330">About NGEN technology</span></span>
+
+-   [<span data-ttu-id="6b40d-331">Cómo acelerar la optimización de NGEN</span><span class="sxs-lookup"><span data-stu-id="6b40d-331">How to speed up NGEN optimization</span></span>](https://blogs.msdn.com/b/dotnet/archive/2013/08/06/wondering-why-mscorsvw-exe-has-high-cpu-usage-you-can-speed-it-up.aspx)
+
+-   [<span data-ttu-id="6b40d-332">Script</span><span class="sxs-lookup"><span data-stu-id="6b40d-332">Script</span></span>](https://aka.ms/DrainNGenQueue)
+
+**<span data-ttu-id="6b40d-333">Roles de servidor y servidor de Windows</span><span class="sxs-lookup"><span data-stu-id="6b40d-333">Windows Server and Server Roles</span></span>**
+
+<span data-ttu-id="6b40d-334">Directrices de ajuste del rendimiento del servidor para</span><span class="sxs-lookup"><span data-stu-id="6b40d-334">Server Performance Tuning Guidelines for</span></span>
+
+-   [<span data-ttu-id="6b40d-335">Microsoft Windows Server 2012 R2</span><span class="sxs-lookup"><span data-stu-id="6b40d-335">Microsoft Windows Server 2012 R2</span></span>](https://msdn.microsoft.com/library/windows/hardware/dn529133.aspx)
+
+-   [<span data-ttu-id="6b40d-336">Microsoft Windows Server 2012</span><span class="sxs-lookup"><span data-stu-id="6b40d-336">Microsoft Windows Server 2012</span></span>](https://download.microsoft.com/download/0/0/B/00BE76AF-D340-4759-8ECD-C80BC53B6231/performance-tuning-guidelines-windows-server-2012.docx)
+
+-   [<span data-ttu-id="6b40d-337">Microsoft Windows Server 2008 R2</span><span class="sxs-lookup"><span data-stu-id="6b40d-337">Microsoft Windows Server 2008 R2</span></span>](https://download.microsoft.com/download/6/B/2/6B2EBD3A-302E-4553-AC00-9885BBF31E21/Perf-tun-srv-R2.docx)
+
+**<span data-ttu-id="6b40d-338">Roles de servidor</span><span class="sxs-lookup"><span data-stu-id="6b40d-338">Server Roles</span></span>**
+
+-   [<span data-ttu-id="6b40d-339">Host de virtualización de escritorio remoto</span><span class="sxs-lookup"><span data-stu-id="6b40d-339">Remote Desktop Virtualization Host</span></span>](https://msdn.microsoft.com/library/windows/hardware/dn567643.aspx)
+
+-   [<span data-ttu-id="6b40d-340">Host de sesión de escritorio remoto</span><span class="sxs-lookup"><span data-stu-id="6b40d-340">Remote Desktop Session Host</span></span>](https://msdn.microsoft.com/library/windows/hardware/dn567648.aspx)
+
+-   [<span data-ttu-id="6b40d-341">Relevancia de IIS: administración de App-V, publicación, servicios Web de informes</span><span class="sxs-lookup"><span data-stu-id="6b40d-341">IIS Relevance: App-V Management, Publishing, Reporting Web Services</span></span>](https://msdn.microsoft.com/library/windows/hardware/dn567678.aspx)
+
+-   [<span data-ttu-id="6b40d-342">Relevancia de servidor de archivos (SMB): si se usa para el almacenamiento de contenido de App-V y la entrega en el modo SCS</span><span class="sxs-lookup"><span data-stu-id="6b40d-342">File Server (SMB) Relevance: If used for App-V Content Storage and Delivery in SCS Mode</span></span>](https://technet.microsoft.com/library/jj134210.aspx)
+
+**<span data-ttu-id="6b40d-343">Guía de rendimiento del cliente de Windows (sistema operativo invitado)</span><span class="sxs-lookup"><span data-stu-id="6b40d-343">Windows Client (Guest OS) Performance Tuning Guidance</span></span>**
+
+-   [<span data-ttu-id="6b40d-344">Microsoft Windows 7</span><span class="sxs-lookup"><span data-stu-id="6b40d-344">Microsoft Windows 7</span></span>](https://download.microsoft.com/download/E/5/7/E5783D68-160B-4366-8387-114FC3E45EB4/Performance Tuning Guidelines for Windows 7 Desktop Virtualization v1.9.docx)
+
+-   [<span data-ttu-id="6b40d-345">Script de optimización: (proporcionado por el soporte técnico de Microsoft)</span><span class="sxs-lookup"><span data-stu-id="6b40d-345">Optimization Script: (Provided by Microsoft Support)</span></span>](https://blogs.technet.com/b/jeff_stokes/archive/2012/10/15/the-microsoft-premier-field-engineer-pfe-view-on-virtual-desktop-vdi-density.aspx)
+
+-   [<span data-ttu-id="6b40d-346">Microsoft Windows 8</span><span class="sxs-lookup"><span data-stu-id="6b40d-346">Microsoft Windows 8</span></span>](https://download.microsoft.com/download/6/0/1/601D7797-A063-4FA7-A2E5-74519B57C2B4/Windows_8_VDI_Image_Client_Tuning_Guide.pdf)
+
+-   [<span data-ttu-id="6b40d-347">Script de optimización: (proporcionado por el soporte técnico de Microsoft)</span><span class="sxs-lookup"><span data-stu-id="6b40d-347">Optimization Script: (Provided by Microsoft Support)</span></span>](https://blogs.technet.com/b/jeff_stokes/archive/2013/04/09/hot-off-the-presses-get-it-now-the-windows-8-vdi-optimization-script-courtesy-of-pfe.aspx)
+
+## <span data-ttu-id="6b40d-348">Pasos de secuenciación para optimizar los paquetes de rendimiento de publicación</span><span class="sxs-lookup"><span data-stu-id="6b40d-348">Sequencing Steps to Optimize Packages for Publishing Performance</span></span>
+
+
+<span data-ttu-id="6b40d-349">Varias características de App-V facilitan nuevos escenarios o permiten nuevos escenarios de implementación de clientes.</span><span class="sxs-lookup"><span data-stu-id="6b40d-349">Several App-V features facilitate new scenarios or enable new customer deployment scenarios.</span></span> <span data-ttu-id="6b40d-350">Las siguientes características pueden influir en el rendimiento de las operaciones de publicación e inicio.</span><span class="sxs-lookup"><span data-stu-id="6b40d-350">These following features can impact the performance of the publishing and launch operations.</span></span>
+
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><span data-ttu-id="6b40d-351">Paso</span><span class="sxs-lookup"><span data-stu-id="6b40d-351">Step</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-352">Consideración</span><span class="sxs-lookup"><span data-stu-id="6b40d-352">Consideration</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-353">Ventajas</span><span class="sxs-lookup"><span data-stu-id="6b40d-353">Benefits</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-354">Compensaciones</span><span class="sxs-lookup"><span data-stu-id="6b40d-354">Tradeoffs</span></span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><p><span data-ttu-id="6b40d-355">No hay ningún bloque de características 1 (FB1, también conocido como principal FB).</span><span class="sxs-lookup"><span data-stu-id="6b40d-355">No Feature Block 1 (FB1, also known as Primary FB)</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-356">Sin FB1 significa que la aplicación se iniciará inmediatamente y la falla de transmisión (la aplicación requiere archivo, DLL y debe desplazarse por la red) durante el inicio. Si hay limitaciones de red, FB1:</span><span class="sxs-lookup"><span data-stu-id="6b40d-356">No FB1 means the application will launch immediately and stream fault (application requires file, DLL and must pull down over the network) during launch.If there are network limitations, FB1 will:</span></span></p>
+<ul>
+<li><p><span data-ttu-id="6b40d-357">Reduzca el número de errores de secuencia y el ancho de banda de red que se usa cuando se inicia una aplicación por primera vez.</span><span class="sxs-lookup"><span data-stu-id="6b40d-357">Reduce the number of stream faults and network bandwidth used when you launch an application for the first time.</span></span></p></li>
+<li><p><span data-ttu-id="6b40d-358">Retrasar el inicio hasta que se haya transmitido todo el FB1.</span><span class="sxs-lookup"><span data-stu-id="6b40d-358">Delay launch until the entire FB1 has been streamed.</span></span></p></li>
+</ul></td>
+<td align="left"><p><span data-ttu-id="6b40d-359">La falla de la transmisión disminuye el tiempo de lanzamiento.</span><span class="sxs-lookup"><span data-stu-id="6b40d-359">Stream faulting decreases the launch time.</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-360">Es necesario reordenar los paquetes de aplicaciones virtuales con FB1 configurado.</span><span class="sxs-lookup"><span data-stu-id="6b40d-360">Virtual application packages with FB1 configured will need to be re-sequenced.</span></span></p></td>
+</tr>
+</tbody>
+</table>
+
+
+
+### <span data-ttu-id="6b40d-361">Quitar FB1</span><span class="sxs-lookup"><span data-stu-id="6b40d-361">Removing FB1</span></span>
+
+<span data-ttu-id="6b40d-362">Quitar FB1 no requiere el instalador de la aplicación original.</span><span class="sxs-lookup"><span data-stu-id="6b40d-362">Removing FB1 does not require the original application installer.</span></span> <span data-ttu-id="6b40d-363">Una vez completados los pasos siguientes, se recomienda revertir el equipo que ejecuta el secuenciador a una instantánea limpia.</span><span class="sxs-lookup"><span data-stu-id="6b40d-363">After completing the following steps, it is suggested that you revert the computer running the sequencer to a clean snapshot.</span></span>
+
+<span data-ttu-id="6b40d-364">**Interfaz de usuario del secuenciador** : cree un nuevo paquete de aplicación virtual.</span><span class="sxs-lookup"><span data-stu-id="6b40d-364">**Sequencer UI** - Create a New Virtual Application Package.</span></span>
+
+1.  <span data-ttu-id="6b40d-365">Complete los pasos de secuenciación para personalizar el &gt; flujo.</span><span class="sxs-lookup"><span data-stu-id="6b40d-365">Complete the sequencing steps up to Customize -&gt; Streaming.</span></span>
+
+2.  <span data-ttu-id="6b40d-366">En la fase de transmisión por secuencias, no seleccione **optimizar el paquete para su implementación en una red lenta o no confiable**.</span><span class="sxs-lookup"><span data-stu-id="6b40d-366">At the Streaming step, do not select **Optimize the package for deployment over slow or unreliable network**.</span></span>
+
+3.  <span data-ttu-id="6b40d-367">Si lo deseas, pasa a **so de destino**.</span><span class="sxs-lookup"><span data-stu-id="6b40d-367">If desired, move on to **Target OS**.</span></span>
+
+**<span data-ttu-id="6b40d-368">Modificar un paquete de aplicación virtual existente</span><span class="sxs-lookup"><span data-stu-id="6b40d-368">Modify an Existing Virtual Application Package</span></span>**
+
+1.  <span data-ttu-id="6b40d-369">Complete los pasos de secuenciación hasta transmitir.</span><span class="sxs-lookup"><span data-stu-id="6b40d-369">Complete the sequencing steps up to Streaming.</span></span>
+
+2.  <span data-ttu-id="6b40d-370">No seleccione **optimizar el paquete para su implementación a través de una red lenta o no confiable**.</span><span class="sxs-lookup"><span data-stu-id="6b40d-370">Do not select **Optimize the package for deployment over a slow or unreliable network**.</span></span>
+
+3.  <span data-ttu-id="6b40d-371">Mover a **crear paquete**.</span><span class="sxs-lookup"><span data-stu-id="6b40d-371">Move to **Create Package**.</span></span>
+
+<span data-ttu-id="6b40d-372">**PowerShell** : actualizar un paquete de aplicaciones virtual existente.</span><span class="sxs-lookup"><span data-stu-id="6b40d-372">**PowerShell** - Update an Existing Virtual Application Package.</span></span>
+
+1.  <span data-ttu-id="6b40d-373">Abra una sesión de PowerShell con privilegios elevados.</span><span class="sxs-lookup"><span data-stu-id="6b40d-373">Open an elevated PowerShell session.</span></span>
+
+2.  <span data-ttu-id="6b40d-374">Importación-módulo **appvsequencer**.</span><span class="sxs-lookup"><span data-stu-id="6b40d-374">Import-module **appvsequencer**.</span></span>
+
+3.  <span data-ttu-id="6b40d-375">**Update-AppvSequencerPackage**  -  **AppvPackageFilePath**</span><span class="sxs-lookup"><span data-stu-id="6b40d-375">**Update-AppvSequencerPackage** - **AppvPackageFilePath**</span></span>
+
+    <span data-ttu-id="6b40d-376">"C:\\Packages\\MyPackage.appv"-instalador</span><span class="sxs-lookup"><span data-stu-id="6b40d-376">"C:\\Packages\\MyPackage.appv" -Installer</span></span>
+
+    <span data-ttu-id="6b40d-377">"C:\\PackageInstall\\PackageUpgrade.exe empty.exe"-OutputPath</span><span class="sxs-lookup"><span data-stu-id="6b40d-377">"C:\\PackageInstall\\PackageUpgrade.exe empty.exe" -OutputPath</span></span>
+
+    <span data-ttu-id="6b40d-378">"C:\\UpgradedPackages"</span><span class="sxs-lookup"><span data-stu-id="6b40d-378">"C:\\UpgradedPackages"</span></span>
+
+    **<span data-ttu-id="6b40d-379">Nota</span><span class="sxs-lookup"><span data-stu-id="6b40d-379">Note</span></span>**  
+    <span data-ttu-id="6b40d-380">Este cmdlet requiere un archivo ejecutable (. exe) o un archivo por lotes (. bat).</span><span class="sxs-lookup"><span data-stu-id="6b40d-380">This cmdlet requires an executable (.exe) or batch file (.bat).</span></span> <span data-ttu-id="6b40d-381">Debe proporcionar un archivo ejecutable vacío (no hace nada) ni un archivo por lotes.</span><span class="sxs-lookup"><span data-stu-id="6b40d-381">You must provide an empty (does nothing) executable or batch file.</span></span>
+
+
+
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><span data-ttu-id="6b40d-382">Paso</span><span class="sxs-lookup"><span data-stu-id="6b40d-382">Step</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-383">Razones</span><span class="sxs-lookup"><span data-stu-id="6b40d-383">Considerations</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-384">Ventajas</span><span class="sxs-lookup"><span data-stu-id="6b40d-384">Benefits</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-385">Compensaciones</span><span class="sxs-lookup"><span data-stu-id="6b40d-385">Tradeoffs</span></span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><p><span data-ttu-id="6b40d-386">No hay ninguna instalación SXS en la publicación (ensamblados SxS anteriores a la instalación)</span><span class="sxs-lookup"><span data-stu-id="6b40d-386">No SXS Install at Publish (Pre-Install SxS assemblies)</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-387">No es necesario reordenar los paquetes de aplicaciones virtuales.</span><span class="sxs-lookup"><span data-stu-id="6b40d-387">Virtual Application packages do not need to be re-sequenced.</span></span> <span data-ttu-id="6b40d-388">Los ensamblados SxS pueden permanecer en el paquete de la aplicación virtual.</span><span class="sxs-lookup"><span data-stu-id="6b40d-388">SxS Assemblies can remain in the virtual application package.</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-389">Las dependencias de ensamblado SxS no se instalarán en el momento de la publicación.</span><span class="sxs-lookup"><span data-stu-id="6b40d-389">The SxS Assembly dependencies will not install at publishing time.</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-390">Las dependencias de ensamblado SxS deben estar preinstaladas.</span><span class="sxs-lookup"><span data-stu-id="6b40d-390">SxS Assembly dependencies must be pre-installed.</span></span></p></td>
+</tr>
+</tbody>
+</table>
+
+
+
+### <span data-ttu-id="6b40d-391">Crear un nuevo paquete de aplicación virtual en el secuenciador</span><span class="sxs-lookup"><span data-stu-id="6b40d-391">Creating a new virtual application package on the sequencer</span></span>
+
+<span data-ttu-id="6b40d-392">Si durante la supervisión del secuenciador se instala un ensamblado SxS (como un Runtime VC + +) como parte de la instalación de una aplicación, el ensamblado SxS se detectará automáticamente e incluirá en el paquete.</span><span class="sxs-lookup"><span data-stu-id="6b40d-392">If, during sequencer monitoring, an SxS Assembly (such as a VC++ Runtime) is installed as part of an application’s installation, SxS Assembly will be automatically detected and included in the package.</span></span> <span data-ttu-id="6b40d-393">El administrador recibirá una notificación y tendrá la opción de excluir el ensamblado SxS.</span><span class="sxs-lookup"><span data-stu-id="6b40d-393">The administrator will be notified and will have the option to exclude the SxS Assembly.</span></span>
+
+<span data-ttu-id="6b40d-394">**Lado del cliente**:</span><span class="sxs-lookup"><span data-stu-id="6b40d-394">**Client Side**:</span></span>
+
+<span data-ttu-id="6b40d-395">Al publicar un paquete de aplicaciones virtual, el cliente de App-V detectará si ya está instalada una dependencia SxS requerida.</span><span class="sxs-lookup"><span data-stu-id="6b40d-395">When publishing a virtual application package, the App-V Client will detect if a required SxS dependency is already installed.</span></span> <span data-ttu-id="6b40d-396">Si la dependencia no está disponible en el equipo y se incluye en el paquete, un Windows Installer tradicional (.\*\* MSI\*\*) la instalación del ensamblado SxS se iniciará.</span><span class="sxs-lookup"><span data-stu-id="6b40d-396">If the dependency is unavailable on the computer and it is included in the package, a traditional Windows Installer (.**msi**) installation of the SxS assembly will be initiated.</span></span> <span data-ttu-id="6b40d-397">Como se ha documentado anteriormente, simplemente instale la dependencia en el equipo que ejecuta el cliente para asegurarse de que la instalación de Windows Installer (. msi) no se produzca.</span><span class="sxs-lookup"><span data-stu-id="6b40d-397">As previously documented, simply install the dependency on the computer running the client to ensure that the Windows Installer (.msi) installation will not occur.</span></span>
+
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><span data-ttu-id="6b40d-398">Paso</span><span class="sxs-lookup"><span data-stu-id="6b40d-398">Step</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-399">Razones</span><span class="sxs-lookup"><span data-stu-id="6b40d-399">Considerations</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-400">Ventajas</span><span class="sxs-lookup"><span data-stu-id="6b40d-400">Benefits</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-401">Compensaciones</span><span class="sxs-lookup"><span data-stu-id="6b40d-401">Tradeoffs</span></span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><p><span data-ttu-id="6b40d-402">Usar selectivamente los archivos de configuración dinámica</span><span class="sxs-lookup"><span data-stu-id="6b40d-402">Selectively Employ Dynamic Configuration files</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-403">El cliente de App-V 5,1 debe analizar y procesar estos archivos de configuración dinámica.</span><span class="sxs-lookup"><span data-stu-id="6b40d-403">The App-V 5.1 client must parse and process these Dynamic Configuration files.</span></span></p>
+<p><span data-ttu-id="6b40d-404">Sea consciente del tamaño y la complejidad (ejecución de script, VREG inclusiones y exclusiones) del archivo.</span><span class="sxs-lookup"><span data-stu-id="6b40d-404">Be conscious of size and complexity (script execution, VREG inclusions/exclusions) of the file.</span></span></p>
+<p><span data-ttu-id="6b40d-405">Es posible que varios paquetes de aplicaciones virtuales ya tengan archivos de configuración dinámica específicos del usuario o del equipo.</span><span class="sxs-lookup"><span data-stu-id="6b40d-405">Numerous virtual application packages may already have User- or computer–specific dynamic configurations files.</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-406">Los tiempos de publicación mejorarán si estos archivos se usan de forma selectiva o no.</span><span class="sxs-lookup"><span data-stu-id="6b40d-406">Publishing times will improve if these files are used selectively or not at all.</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-407">Es necesario volver a configurar los paquetes de aplicaciones virtuales individualmente o a través de la consola de administración de servidores de App-V para quitar los archivos de configuración dinámica asociados.</span><span class="sxs-lookup"><span data-stu-id="6b40d-407">Virtual application packages would need to be reconfigured individually or via the App-V server management console to remove associated Dynamic Configuration files.</span></span></p></td>
+</tr>
+</tbody>
+</table>
+
+
+
+### <span data-ttu-id="6b40d-408">Deshabilitar una configuración dinámica con PowerShell</span><span class="sxs-lookup"><span data-stu-id="6b40d-408">Disabling a Dynamic Configuration using Powershell</span></span>
+
+-   <span data-ttu-id="6b40d-409">Para los paquetes ya publicados, puede usar `Set-AppVClientPackage –Name Myapp –Path c:\Packages\Apps\MyApp.appv` sin</span><span class="sxs-lookup"><span data-stu-id="6b40d-409">For already published packages, you can use `Set-AppVClientPackage –Name Myapp –Path c:\Packages\Apps\MyApp.appv` without</span></span>
+
+    <span data-ttu-id="6b40d-410">Parámetro **-DynamicDeploymentConfiguration**</span><span class="sxs-lookup"><span data-stu-id="6b40d-410">**-DynamicDeploymentConfiguration** parameter</span></span>
+
+-   <span data-ttu-id="6b40d-411">Del mismo modo, al agregar paquetes nuevos con `Add-AppVClientPackage –Path c:\Packages\Apps\MyApp.appv` , no use el</span><span class="sxs-lookup"><span data-stu-id="6b40d-411">Similarly, when adding new packages using `Add-AppVClientPackage –Path c:\Packages\Apps\MyApp.appv`, do not use the</span></span>
+
+    <span data-ttu-id="6b40d-412">Parámetro **-DynamicDeploymentConfiguration** .</span><span class="sxs-lookup"><span data-stu-id="6b40d-412">**-DynamicDeploymentConfiguration** parameter.</span></span>
+
+<span data-ttu-id="6b40d-413">Para obtener documentación sobre cómo aplicar una configuración dinámica, consulte:</span><span class="sxs-lookup"><span data-stu-id="6b40d-413">For documentation on How to Apply a Dynamic Configuration, see:</span></span>
+
+-   [<span data-ttu-id="6b40d-414">Cómo aplicar el archivo de configuración de usuario mediante el uso de PowerShell</span><span class="sxs-lookup"><span data-stu-id="6b40d-414">How to Apply the User Configuration File by Using PowerShell</span></span>](how-to-apply-the-user-configuration-file-by-using-powershell51.md)
+
+-   [<span data-ttu-id="6b40d-415">Cómo aplicar el archivo de configuración de implementación mediante el uso de PowerShell</span><span class="sxs-lookup"><span data-stu-id="6b40d-415">How to Apply the Deployment Configuration File by Using PowerShell</span></span>](how-to-apply-the-deployment-configuration-file-by-using-powershell51.md)
+
+<table>
+<colgroup>
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><span data-ttu-id="6b40d-416">Paso</span><span class="sxs-lookup"><span data-stu-id="6b40d-416">Step</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-417">Razones</span><span class="sxs-lookup"><span data-stu-id="6b40d-417">Considerations</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-418">Ventajas</span><span class="sxs-lookup"><span data-stu-id="6b40d-418">Benefits</span></span></th>
+<th align="left"><span data-ttu-id="6b40d-419">Compensaciones</span><span class="sxs-lookup"><span data-stu-id="6b40d-419">Tradeoffs</span></span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><p><span data-ttu-id="6b40d-420">Cuenta para la ejecución de scripts sincrónicos durante el ciclo de vida del paquete.</span><span class="sxs-lookup"><span data-stu-id="6b40d-420">Account for Synchronous Script Execution during Package Lifecycle.</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-421">Si el material promocional de script está incrustado en el paquete, agregar (PowerShell) puede ser considerablemente más lento.</span><span class="sxs-lookup"><span data-stu-id="6b40d-421">If script collateral is embedded in the package, Add (Powershell) may be significantly slower.</span></span></p>
+<p><span data-ttu-id="6b40d-422">La ejecución de scripts durante el inicio de aplicaciones virtuales (StartVirtualEnvironment, StartProcess) o agregar + publicar afectará al rendimiento percibido durante una o más de estas operaciones de ciclo de vida.</span><span class="sxs-lookup"><span data-stu-id="6b40d-422">Running of scripts during virtual application launch (StartVirtualEnvironment, StartProcess) and/or Add+Publish will impact the perceived performance during one or more of these lifecycle operations.</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-423">El uso de scripts asincrónicos (sin bloqueo) asegurará que las operaciones de ciclo de vida se completen de forma eficaz.</span><span class="sxs-lookup"><span data-stu-id="6b40d-423">Use of Asynchronous (Non-Blocking) Scripts will ensure that the lifecycle operations complete efficiently.</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-424">Este paso requiere conocimientos prácticos de todos los paquetes de aplicaciones virtuales con el material de script incrustado, que tienen archivos de configuración dinámica asociados y que hacen referencia a los scripts y ejecutan sincrónicamente.</span><span class="sxs-lookup"><span data-stu-id="6b40d-424">This step requires working knowledge of all virtual application packages with embedded script collateral, which have associated dynamic configurations files and which reference and run scripts synchronously.</span></span></p></td>
+</tr>
+<tr class="even">
+<td align="left"><p><span data-ttu-id="6b40d-425">Quitar fuentes virtuales extrañas del paquete.</span><span class="sxs-lookup"><span data-stu-id="6b40d-425">Remove Extraneous Virtual Fonts from Package.</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-426">La mayoría de las aplicaciones investigadas por el equipo de producto de App-V contenían un pequeño número de fuentes, generalmente menos de 20.</span><span class="sxs-lookup"><span data-stu-id="6b40d-426">The majority of applications investigated by the App-V product team contained a small number of fonts, typically fewer than 20.</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-427">Las fuentes virtuales afectan al rendimiento de la actualización de publicaciones.</span><span class="sxs-lookup"><span data-stu-id="6b40d-427">Virtual Fonts impact publishing refresh performance.</span></span></p></td>
+<td align="left"><p><span data-ttu-id="6b40d-428">Las fuentes deseadas deberán habilitarse o instalarse de forma nativa.</span><span class="sxs-lookup"><span data-stu-id="6b40d-428">Desired fonts will need to be enabled/installed natively.</span></span> <span data-ttu-id="6b40d-429">Para obtener instrucciones, consulte instalar o desinstalar fuentes.</span><span class="sxs-lookup"><span data-stu-id="6b40d-429">For instructions, see Install or uninstall fonts.</span></span></p></td>
+</tr>
+</tbody>
+</table>
+
+
+
+### <span data-ttu-id="6b40d-430">Determinar qué fuentes virtuales existen en el paquete</span><span class="sxs-lookup"><span data-stu-id="6b40d-430">Determining what virtual fonts exist in the package</span></span>
+
+-   <span data-ttu-id="6b40d-431">Haga una copia del paquete.</span><span class="sxs-lookup"><span data-stu-id="6b40d-431">Make a copy of the package.</span></span>
+
+-   <span data-ttu-id="6b40d-432">Cambiar el nombre del paquete \ _copy. appv a Package\_copy.zip</span><span class="sxs-lookup"><span data-stu-id="6b40d-432">Rename Package\_copy.appv to Package\_copy.zip</span></span>
+
+-   <span data-ttu-id="6b40d-433">Abra AppxManifest.xml y busque lo siguiente:</span><span class="sxs-lookup"><span data-stu-id="6b40d-433">Open AppxManifest.xml and locate the following:</span></span>
+
+    <span data-ttu-id="6b40d-434">&lt;appv: extensión Category = "AppV. fonts"&gt;</span><span class="sxs-lookup"><span data-stu-id="6b40d-434">&lt;appv:Extension Category="AppV.Fonts"&gt;</span></span>
+
+    <span data-ttu-id="6b40d-435">&lt;appv: fuentes&gt;</span><span class="sxs-lookup"><span data-stu-id="6b40d-435">&lt;appv:Fonts&gt;</span></span>
+
+    <span data-ttu-id="6b40d-436">&lt;appv: Font path = "\ [{Fonts} \] \\private\\CalibriL.ttf" DelayLoad = "true" &gt; &lt; /Appv: Font&gt;</span><span class="sxs-lookup"><span data-stu-id="6b40d-436">&lt;appv:Font Path="\[{Fonts}\]\\private\\CalibriL.ttf" DelayLoad="true"&gt;&lt;/appv:Font&gt;</span></span>
+
+    **<span data-ttu-id="6b40d-437">Nota</span><span class="sxs-lookup"><span data-stu-id="6b40d-437">Note</span></span>**  
+    <span data-ttu-id="6b40d-438">Si hay fuentes marcadas como **DelayLoad**, estas no tendrán impacto en el primer inicio.</span><span class="sxs-lookup"><span data-stu-id="6b40d-438">If there are fonts marked as **DelayLoad**, those will not impact first launch.</span></span>
+
+
+
+~~~
+&lt;/appv:Fonts&gt;
+~~~
+
+### <span data-ttu-id="6b40d-439">Excluir fuentes virtuales del paquete</span><span class="sxs-lookup"><span data-stu-id="6b40d-439">Excluding virtual fonts from the package</span></span>
+
+<span data-ttu-id="6b40d-440">Use el archivo de configuración dinámica que se adapte mejor al ámbito de usuario: configuración de implementación para todos los usuarios en el equipo, configuración de usuario para usuarios o usuarios específicos.</span><span class="sxs-lookup"><span data-stu-id="6b40d-440">Use the dynamic configuration file that best suits the user scope – deployment configuration for all users on computer, user configuration for specific user or users.</span></span>
+
+-   <span data-ttu-id="6b40d-441">Deshabilite las fuentes con la implementación o la configuración de usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-441">Disable fonts with the deployment or user configuration.</span></span>
+
+<span data-ttu-id="6b40d-442">Fuentes</span><span class="sxs-lookup"><span data-stu-id="6b40d-442">Fonts</span></span>
+
+--&gt;
+
+<span data-ttu-id="6b40d-443">&lt;Fonts Enabled = "false"/&gt;</span><span class="sxs-lookup"><span data-stu-id="6b40d-443">&lt;Fonts Enabled="false" /&gt;</span></span>
+
+<span data-ttu-id="6b40d-444">&lt;!--</span><span class="sxs-lookup"><span data-stu-id="6b40d-444">&lt;!--</span></span>
+
+## <a href="" id="bkmk-terms1"></a> <span data-ttu-id="6b40d-445">Terminología de la guía de rendimiento de App-V 5,1</span><span class="sxs-lookup"><span data-stu-id="6b40d-445">App-V 5.1 Performance Guidance Terminology</span></span>
+
+
+<span data-ttu-id="6b40d-446">Los siguientes términos se usan al describir conceptos y acciones relacionados con la optimización del rendimiento de App-V 5,1.</span><span class="sxs-lookup"><span data-stu-id="6b40d-446">The following terms are used when describing concepts and actions related to App-V 5.1 performance optimization.</span></span>
+
+-   <span data-ttu-id="6b40d-447">**Complejidad** : se refiere a una o varias características del paquete que pueden influir en el rendimiento durante la preconfiguración (**Add-AppvClientPackage**) o la integración (**Publish-AppvClientPackage**).</span><span class="sxs-lookup"><span data-stu-id="6b40d-447">**Complexity** – Refers to the one or more package characteristics that may impact performance during pre-configure (**Add-AppvClientPackage**) or integration (**Publish-AppvClientPackage**).</span></span> <span data-ttu-id="6b40d-448">Algunas características de ejemplo son: tamaño del manifiesto, número de fuentes virtuales, número de archivos.</span><span class="sxs-lookup"><span data-stu-id="6b40d-448">Some example characteristics are: manifest size, number of virtual fonts, number of files.</span></span>
+
+-   <span data-ttu-id="6b40d-449">**Desintegración** : elimina las integraciones de usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-449">**De-Integrate** – Removes the user integrations</span></span>
+
+-   <span data-ttu-id="6b40d-450">**Volver a integrar** : aplica las integraciones de usuario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-450">**Re-Integrate** – Applies the user integrations.</span></span>
+
+-   <span data-ttu-id="6b40d-451">**No persistente, agrupado** : crea un equipo que ejecuta un entorno virtual cada vez que inicia sesión.</span><span class="sxs-lookup"><span data-stu-id="6b40d-451">**Non-Persistent, Pooled** – Creates a computer running a virtual environment each time they log in.</span></span>
+
+-   <span data-ttu-id="6b40d-452">**Persistentes, personales** : un equipo que ejecuta un entorno virtual que sigue siendo el mismo para cada inicio de sesión.</span><span class="sxs-lookup"><span data-stu-id="6b40d-452">**Persistent, Personal** – A computer running a virtual environment that remains the same for every login.</span></span>
+
+-   <span data-ttu-id="6b40d-453">**Estado** : para este documento, implica que las integraciones de usuarios persisten entre sesiones y una tecnología de administración de entorno de usuario se usa conjuntamente con RDSH no persistente o VDI.</span><span class="sxs-lookup"><span data-stu-id="6b40d-453">**Stateful** - For this document, implies that user integrations are persisted between sessions and a user environment management technology is used in conjunction with non-persistent RDSH or VDI.</span></span>
+
+-   <span data-ttu-id="6b40d-454">**Sin estado** : representa un escenario en el que no se conserva el estado del usuario entre sesiones.</span><span class="sxs-lookup"><span data-stu-id="6b40d-454">**Stateless** – Represents a scenario when no user state is persisted between sessions.</span></span>
+
+-   <span data-ttu-id="6b40d-455">**Trigger** : (o desencadenadores de acción nativa).</span><span class="sxs-lookup"><span data-stu-id="6b40d-455">**Trigger** – (or Native Action Triggers).</span></span> <span data-ttu-id="6b40d-456">UPM usa estos tipos de desencadenadores para iniciar operaciones de supervisión o sincronización.</span><span class="sxs-lookup"><span data-stu-id="6b40d-456">UPM uses these types of triggers to initiate monitoring or synchronization operations.</span></span>
+
+-   <span data-ttu-id="6b40d-457">**Experiencia de usuario** : en el contexto de App-V 5,1, la experiencia del usuario, cuantitativa, es la suma de las siguientes partes:</span><span class="sxs-lookup"><span data-stu-id="6b40d-457">**User Experience** - In the context of App-V 5.1, the user experience, quantitatively, is the sum of the following parts:</span></span>
+
+    -   <span data-ttu-id="6b40d-458">Desde el punto en que los usuarios inician un inicio de sesión cuando pueden manipular el escritorio.</span><span class="sxs-lookup"><span data-stu-id="6b40d-458">From the point that users initiate a log-in to when they are able to manipulate the desktop.</span></span>
+
+    -   <span data-ttu-id="6b40d-459">Desde el punto en el que se puede interaccionar el escritorio hasta el punto en el que comienza una actualización de publicación (en las condiciones de PowerShell, sincronizar) al usar la infraestructura de servidor completo de App-V 5,1.</span><span class="sxs-lookup"><span data-stu-id="6b40d-459">From the point where the desktop can be interacted with to the point a publishing refresh begins (in PowerShell terms, sync) when using the App-V 5.1 full server infrastructure.</span></span> <span data-ttu-id="6b40d-460">En las instancias independientes, es cuando se inician los comandos **Add-AppVClientPackage** y **Publish-AppVClientPackage PowerShell** .</span><span class="sxs-lookup"><span data-stu-id="6b40d-460">In standalone instances, it is when the **Add-AppVClientPackage** and **Publish-AppVClientPackage Powershell** commands are initiated.</span></span>
+
+    -   <span data-ttu-id="6b40d-461">Desde el principio hasta la finalización de la actualización de la publicación.</span><span class="sxs-lookup"><span data-stu-id="6b40d-461">From start to completion of the publishing refresh.</span></span> <span data-ttu-id="6b40d-462">En las instancias independientes, esta es la primera vez que se publica la aplicación virtual.</span><span class="sxs-lookup"><span data-stu-id="6b40d-462">In standalone instances, this is the first to last virtual application published.</span></span>
+
+    -   <span data-ttu-id="6b40d-463">Desde el punto en que la aplicación virtual está disponible para iniciar desde un acceso directo.</span><span class="sxs-lookup"><span data-stu-id="6b40d-463">From the point where the virtual application is available to launch from a shortcut.</span></span> <span data-ttu-id="6b40d-464">Como alternativa, se trata del punto en el que se registra la Asociación de tipo de archivo y se iniciará una aplicación virtual especificada.</span><span class="sxs-lookup"><span data-stu-id="6b40d-464">Alternatively, it is from the point at which the file type association is registered and will launch a specified virtual application.</span></span>
+
+-   <span data-ttu-id="6b40d-465">**Administración de perfiles de usuario** : el enfoque controlado y estructurado para administrar los componentes de usuario asociados con el entorno.</span><span class="sxs-lookup"><span data-stu-id="6b40d-465">**User Profile Management** – The controlled and structured approach to managing user components associated with the environment.</span></span> <span data-ttu-id="6b40d-466">Por ejemplo, perfiles de usuario, preferencias y administración de directivas, control de aplicaciones e implementación de aplicaciones.</span><span class="sxs-lookup"><span data-stu-id="6b40d-466">For example, user profiles, preference and policy management, application control and application deployment.</span></span> <span data-ttu-id="6b40d-467">Puede usar las secuencias de comandos o las soluciones de terceros para configurar el entorno según sea necesario.</span><span class="sxs-lookup"><span data-stu-id="6b40d-467">You can use scripting or third-party solutions configure the environment as needed.</span></span>
+
+
+
+
+
+
+## <span data-ttu-id="6b40d-468">Temas relacionados</span><span class="sxs-lookup"><span data-stu-id="6b40d-468">Related topics</span></span>
+
+
+[<span data-ttu-id="6b40d-469">Guía del administrador de Microsoft Application Virtualization 5,1</span><span class="sxs-lookup"><span data-stu-id="6b40d-469">Microsoft Application Virtualization 5.1 Administrator's Guide</span></span>](microsoft-application-virtualization-51-administrators-guide.md)
+
+
+
+
+
+
+
+
+
