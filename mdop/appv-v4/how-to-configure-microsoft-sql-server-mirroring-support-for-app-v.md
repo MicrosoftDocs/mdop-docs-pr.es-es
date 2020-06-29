@@ -1,0 +1,96 @@
+---
+title: Cómo configurar el soporte técnico en duplicación de Microsoft SQL Server para App-V
+description: Cómo configurar el soporte técnico en duplicación de Microsoft SQL Server para App-V
+author: dansimp
+ms.assetid: 6d069eb5-109f-460a-836a-de49473b7035
+ms.reviewer: ''
+manager: dansimp
+ms.author: dansimp
+ms.pagetype: mdop, appcompat, virtualization
+ms.mktglfcycl: deploy
+ms.sitesec: library
+ms.prod: w10
+ms.date: 08/30/2016
+ms.openlocfilehash: fb572442cd12bb32fc9406de65f05a3bf061f946
+ms.sourcegitcommit: 354664bc527d93f80687cd2eba70d1eea024c7c3
+ms.translationtype: MT
+ms.contentlocale: es-ES
+ms.lasthandoff: 06/26/2020
+ms.locfileid: "10817931"
+---
+# <span data-ttu-id="fa2f2-103">Cómo configurar el soporte técnico en duplicación de Microsoft SQL Server para App-V</span><span class="sxs-lookup"><span data-stu-id="fa2f2-103">How to Configure Microsoft SQL Server Mirroring Support for App-V</span></span>
+
+
+<span data-ttu-id="fa2f2-104">Puede usar el siguiente procedimiento para configurar el entorno de Microsoft Application Virtualization (App-V) para usar el reflejo de base de datos de Microsoft SQL Server.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-104">You can use the following procedure to configure your Microsoft Application Virtualization (App-V) environment to use Microsoft SQL Server database mirroring.</span></span> <span data-ttu-id="fa2f2-105">La configuración de la creación de reflejos de base de datos puede ayudar en situaciones de recuperación ante desastres y conmutación.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-105">Configuring database mirroring can help with disaster recovery and failover scenarios.</span></span> <span data-ttu-id="fa2f2-106">App-V 4,5 SP2 admite todos los modos de creación de reflejo de base de datos disponibles actualmente para Microsoft SQL Server 2005 y SQL Server 2008.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-106">App-V 4.5 SP2 supports all modes of database mirroring currently available for Microsoft SQL Server 2005 and SQL Server 2008.</span></span>
+
+**<span data-ttu-id="fa2f2-107">Nota</span><span class="sxs-lookup"><span data-stu-id="fa2f2-107">Note</span></span>**  
+<span data-ttu-id="fa2f2-108">Este procedimiento está escrito para los administradores familiarizados con la configuración y la configuración de la creación de bases de datos y las bases de datos de SQL Server con Microsoft SQL Server y, por consiguiente, solo cubren las opciones de configuración específicas de App-V.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-108">This procedure is written for administrators who are familiar with setting up and configuring SQL Server databases and database mirroring with Microsoft SQL Server, and therefore covers only the specific configuration settings that are unique to App-V.</span></span>
+
+
+
+**<span data-ttu-id="fa2f2-109">Para configurar el entorno de App-V para usar la creación de reflejo de base de datos de Microsoft SQL Server</span><span class="sxs-lookup"><span data-stu-id="fa2f2-109">To configure your App-V environment to use Microsoft SQL Server database mirroring</span></span>**
+
+1.  <span data-ttu-id="fa2f2-110">Configure el reflejo de la base de datos de SQL Server de la base de datos de App-V siguiendo los procedimientos empresariales estándar para la creación de reflejo de base de datos.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-110">Set up SQL Server database mirroring of the App-V database following your standard business practices for database mirroring.</span></span> <span data-ttu-id="fa2f2-111">Use los siguientes vínculos para obtener información general sobre cómo implementar el reflejo de bases de datos de Microsoft SQL Server:</span><span class="sxs-lookup"><span data-stu-id="fa2f2-111">Use the following links for general information about implementing Microsoft SQL Server database mirroring:</span></span>
+
+    -   <span data-ttu-id="fa2f2-112">**Microsoft SQL 2005**:[configuración de la creación de reflejo de la base de datos](https://go.microsoft.com/fwlink/?LinkId=187478) (https://go.microsoft.com/fwlink/?LinkId=187478)</span><span class="sxs-lookup"><span data-stu-id="fa2f2-112">**Microsoft SQL 2005**—[Setting Up Database Mirroring](https://go.microsoft.com/fwlink/?LinkId=187478) (https://go.microsoft.com/fwlink/?LinkId=187478)</span></span>
+
+    -   <span data-ttu-id="fa2f2-113">**Microsoft SQL 2008**:[configuración de la creación de reflejo de la base de datos](https://go.microsoft.com/fwlink/?LinkId=187477) (https://go.microsoft.com/fwlink/?LinkId=187477)</span><span class="sxs-lookup"><span data-stu-id="fa2f2-113">**Microsoft SQL 2008**—[Setting Up Database Mirroring](https://go.microsoft.com/fwlink/?LinkId=187477) (https://go.microsoft.com/fwlink/?LinkId=187477)</span></span>
+
+    <span data-ttu-id="fa2f2-114">Además, puede encontrar la información de procedimientos recomendados en [procedimientos recomendados y rendimiento de la creación de reflejos de bases de datos](https://go.microsoft.com/fwlink/?LinkId=190270) ( https://go.microsoft.com/fwlink/?LinkId=190270) .</span><span class="sxs-lookup"><span data-stu-id="fa2f2-114">In addition, you can find Best Practices information in [Database Mirroring Best Practices and Performance Considerations](https://go.microsoft.com/fwlink/?LinkId=190270) (https://go.microsoft.com/fwlink/?LinkId=190270).</span></span>
+
+2.  <span data-ttu-id="fa2f2-115">Una vez que se haya configurado el reflejo, compruebe que la base de datos de App-V muestre el estado **(principal, sincronizado)** y que la base de datos reflejada muestra un estado **(reflejado, sincronizado/restaurado)**.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-115">After mirroring has been set up, verify that the App-V database shows a status of **(Principal, Synchronized)**, and the mirrored database shows a status of **(Mirror, Synchronized / Restoring)**.</span></span> <span data-ttu-id="fa2f2-116">Solucione cualquier problema de duplicación antes de continuar con el siguiente paso.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-116">Resolve any mirroring issues before proceeding to the next step.</span></span> <span data-ttu-id="fa2f2-117">Para obtener más información sobre cómo supervisar el estado, consulte [supervisión del estado del reflejo](https://go.microsoft.com/fwlink/?LinkId=190279) ( https://go.microsoft.com/fwlink/?LinkId=190279) .</span><span class="sxs-lookup"><span data-stu-id="fa2f2-117">For additional information about monitoring the status, see [Monitoring Mirroring Status](https://go.microsoft.com/fwlink/?LinkId=190279) (https://go.microsoft.com/fwlink/?LinkId=190279).</span></span>
+
+3.  <span data-ttu-id="fa2f2-118">En el equipo de SQL Server que hospeda el reflejo de la base de datos de App-v, cree el inicio de sesión de SQL Server para la cuenta de servicio de red del servidor de administración de App-v con el nombre de cuenta \*\* &lt; domain &gt; \\ &lt; ManagementServerHostName &gt; $ \*\*.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-118">On the SQL Server computer that hosts the mirror of the App-V database, create the SQL Server Login for the network service account of the App-V Management Server by using the account name **&lt;domain&gt;\\&lt;ManagementServerHostName&gt;$**.</span></span>
+
+4.  <span data-ttu-id="fa2f2-119">Instale el cliente nativo de Microsoft SQL Server en el servidor de administración de App-V y, en el equipo que ejecute el servicio Web de administración de App-V, si está instalado en otro equipo.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-119">Install the Microsoft SQL Server Native Client on the App-V Management Server, and on the computer running the App-V Management Web Service if installed on a different computer.</span></span> <span data-ttu-id="fa2f2-120">Si tiene previsto que los servidores de administración de App-V adicionales se conecten a la base de datos SQL reflejada para el equilibrio de carga, debe instalar también el cliente nativo de Microsoft SQL Server en esos equipos.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-120">If you plan to have additional App-V Management Servers connect to the mirrored SQL database for load balancing, you must install the Microsoft SQL Server Native Client on those computers as well.</span></span> <span data-ttu-id="fa2f2-121">Puede descargar el cliente nativo de Microsoft SQL Server desde la página del [Feature Pack de Microsoft SQL server 2008](https://go.microsoft.com/fwlink/?LinkId=187479) en el centro de descarga de Microsoft ( https://go.microsoft.com/fwlink/?LinkId=187479) .</span><span class="sxs-lookup"><span data-stu-id="fa2f2-121">You can download the Microsoft SQL Server Native Client from the [Microsoft SQL Server 2008 Feature Pack](https://go.microsoft.com/fwlink/?LinkId=187479) page in the Microsoft Download Center (https://go.microsoft.com/fwlink/?LinkId=187479).</span></span>
+
+5.  <span data-ttu-id="fa2f2-122">Compruebe la clave del registro **HKEY \ _LOCAL \ _MACHINE \\software\\microsoft\\softgrid\\4.5\\server\\sqlservername** y asegúrese de que contiene solo el nombre de host del servidor SQL Server.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-122">Check the registry key **HKEY\_LOCAL\_MACHINE\\SOFTWARE\\Microsoft\\Softgrid\\4.5\\Server\\SQLServerName** and make sure that it contains only the host name of the SQL Server.</span></span> <span data-ttu-id="fa2f2-123">Si incluye un nombre de instancia, por ejemplo *serverhostname\\instancename*, debe quitarse el nombre de instancia.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-123">If it includes an instance name, for example *serverhostname\\instancename*, the instance name must be removed.</span></span>
+
+    **<span data-ttu-id="fa2f2-124">Importante</span><span class="sxs-lookup"><span data-stu-id="fa2f2-124">Important</span></span>**  
+    <span data-ttu-id="fa2f2-125">El servidor de administración de App-V usa la biblioteca de redes TCP/IP para comunicarse con el servidor SQL Server cuando la creación de reflejo de la base de datos está habilitada y, por lo tanto, no se pueden usar los nombres de instancia.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-125">The App-V Management Server uses the TCP/IP networking library to communicate with the SQL Server when database mirroring is enabled, and therefore instance names cannot be used.</span></span> <span data-ttu-id="fa2f2-126">En su lugar, los números de Puerto deben especificarse en las claves del registro.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-126">The port numbers must be specified in the registry keys instead.</span></span>
+
+
+
+6.  <span data-ttu-id="fa2f2-127">Compruebe la clave del registro **HKEY \ _LOCAL \ _MACHINE \\software\\microsoft\\softgrid\\4.5\\server\\sqlserverport** y asegúrese de que contiene el número de puerto que se usa para SQL en el equipo de SQL Server.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-127">Check the registry key **HKEY\_LOCAL\_MACHINE\\SOFTWARE\\Microsoft\\Softgrid\\4.5\\Server\\SQLServerPort** and make sure that it contains the port number that is used for SQL on the SQL Server computer.</span></span> <span data-ttu-id="fa2f2-128">Si está usando una instancia con nombre, este valor de clave debe establecerse en el puerto que se usa para la instancia con nombre.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-128">If you are using a named instance this key value must be set to the port that is used for the named instance.</span></span>
+
+7.  <span data-ttu-id="fa2f2-129">Cree la clave del registro **HKEY \ _LOCAL \ _MACHINE \\software\\microsoft\\softgrid\\4.5\\server\\sqlfailoverservername** como REG \ _SZ y, a continuación, establezca el valor en el nombre de host del servidor SQL Server que hospeda el reflejo.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-129">Create the registry key **HKEY\_LOCAL\_MACHINE\\SOFTWARE\\Microsoft\\Softgrid\\4.5\\Server\\SQLFailoverServerName** as REG\_SZ and then set the value to the host name of the SQL Server that hosts the mirror.</span></span>
+
+8.  <span data-ttu-id="fa2f2-130">Cree la clave del registro **HKEY \ _LOCAL \ _MACHINE \\software\\microsoft\\softgrid\\4.5\\server\\sqlfailoverserverport** como DWORD y, a continuación, establezca el valor en el número de puerto que se usa para SQL en el equipo que ejecuta SQL Server para hospedar el reflejo.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-130">Create the registry key **HKEY\_LOCAL\_MACHINE\\SOFTWARE\\Microsoft\\Softgrid\\4.5\\Server\\SQLFailoverServerPort** as DWORD and then set the value to the port number that is used for SQL on the computer that is running SQL Server to host the mirror.</span></span> <span data-ttu-id="fa2f2-131">Si está usando una instancia con nombre para el reflejo, este valor de clave debe establecerse en el número de puerto que se usa para la instancia con nombre.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-131">If you are using a named instance for the mirror this key value must be set to the port number that is used for the named instance.</span></span>
+
+9.  <span data-ttu-id="fa2f2-132">En el equipo que ejecuta el servicio Web de administración de App-V, configure el archivo de texto UDL (Universal Data Link).</span><span class="sxs-lookup"><span data-stu-id="fa2f2-132">On the computer that is running the App-V Management Web Service, configure the Universal Data Link (UDL) text file.</span></span> <span data-ttu-id="fa2f2-133">En el directorio donde está instalado App-V, haga doble clic en **SftMgmt. udl** y especifique los valores siguientes:</span><span class="sxs-lookup"><span data-stu-id="fa2f2-133">In the directory where App-V is installed, double-click **SftMgmt.udl** and specify the following values:</span></span>
+
+    -   <span data-ttu-id="fa2f2-134">En la pestaña **proveedor** , seleccione el proveedor OLE DB de **SQL Server Native Client 10,0**.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-134">On the **Provider** tab, select the OLE DB provider **SQL Server Native Client 10.0**.</span></span>
+
+    -   <span data-ttu-id="fa2f2-135">Haga clic en **siguiente** para seleccionar la ficha **conexión** . En el cuadro **nombre del servidor** , escriba el nombre del servidor SQL Server.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-135">Click **Next** to select the **Connection** tab. In the **Server Name** box, enter the server name of the SQL Server.</span></span> <span data-ttu-id="fa2f2-136">A continuación, seleccione **usar seguridad integrada de Windows NT**.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-136">Next, select **Use Windows NT Integrated Security**.</span></span> <span data-ttu-id="fa2f2-137">Por último, haga clic en la lista, **Seleccione la base de datos**y, después, seleccione el nombre de la base de datos de App-V.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-137">Finally, click the list **Select the database**, and then select the App-V database name.</span></span>
+
+    -   <span data-ttu-id="fa2f2-138">Haga clic en la pestaña **todas** y, a continuación, seleccione el **asociado de conmutación por error**de entrada.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-138">Click the **All** tab, and then select the entry **Failover Partner**.</span></span> <span data-ttu-id="fa2f2-139">Haga clic en **Editar valor**y, a continuación, escriba el nombre del servidor SQL Server de conmutación por error.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-139">Click **Edit Value**, and then enter the server name of the failover SQL Server.</span></span> <span data-ttu-id="fa2f2-140">Haga clic en **Aceptar**.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-140">Click **OK**.</span></span>
+
+    **<span data-ttu-id="fa2f2-141">Importante</span><span class="sxs-lookup"><span data-stu-id="fa2f2-141">Important</span></span>**  
+    <span data-ttu-id="fa2f2-142">El sistema App-V usa la autenticación Kerberos.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-142">The App-V system uses Kerberos authentication.</span></span> <span data-ttu-id="fa2f2-143">Por lo tanto, al configurar el reflejo SQL donde la autenticación Kerberos está habilitada en SQL Server y el servicio SQL Server se ejecuta en una cuenta de usuario de dominio, debe configurar manualmente un SPN.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-143">Therefore, when you configure SQL mirroring where Kerberos Authentication is enabled on the SQL Server and the SQL Server service runs under a domain user account, you must manually configure an SPN.</span></span> <span data-ttu-id="fa2f2-144">Para obtener más información, vea "cuando el servicio SQL usa una cuenta basada en el dominio" en el artículo [configurar la administración de App-V para un entorno distribuido](https://go.microsoft.com/fwlink/?LinkId=203186) ( https://go.microsoft.com/fwlink/?LinkId=203186) .</span><span class="sxs-lookup"><span data-stu-id="fa2f2-144">For more information, see “When SQL Service Uses Domain-Based Account” in the article [Configuring App-V Administration for a Distributed Environment](https://go.microsoft.com/fwlink/?LinkId=203186) (https://go.microsoft.com/fwlink/?LinkId=203186).</span></span>
+
+
+
+10. <span data-ttu-id="fa2f2-145">Para comprobar que el reflejo de la base de datos se está ejecutando correctamente, pruebe la conmutación por error y confirme que el servidor de administración de App-V continúa funcionando correctamente.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-145">To verify that database mirroring is running correctly, test the failover and confirm that the App-V Management Server continues to function correctly.</span></span>
+
+    **<span data-ttu-id="fa2f2-146">Importante</span><span class="sxs-lookup"><span data-stu-id="fa2f2-146">Important</span></span>**  
+    <span data-ttu-id="fa2f2-147">Continúe con la atención y siga sus prácticas empresariales estándar para asegurarse de que no se interrumpan las operaciones del sistema en caso de que se produzca un error.</span><span class="sxs-lookup"><span data-stu-id="fa2f2-147">Proceed with care, and follow your standard business practices to ensure that system operations are not disrupted in the event of a failure.</span></span>
+
+
+
+~~~
+After the failover has occurred successfully, as verified by using the SQL Server status monitoring information, right-click the **Applications** node in the App-V Management Console, and then select **Refresh**. The list of applications should display normally if the system is working correctly.
+~~~
+
+## <span data-ttu-id="fa2f2-148">Temas relacionados</span><span class="sxs-lookup"><span data-stu-id="fa2f2-148">Related topics</span></span>
+
+
+[<span data-ttu-id="fa2f2-149">Cómo realizar tareas administrativas en la consola de administración de servidor de virtualización de aplicaciones</span><span class="sxs-lookup"><span data-stu-id="fa2f2-149">How to Perform Administrative Tasks in the Application Virtualization Server Management Console</span></span>](how-to-perform-administrative-tasks-in-the-application-virtualization-server-management-console.md)
+
+
+
+
+
+
+
+
+
