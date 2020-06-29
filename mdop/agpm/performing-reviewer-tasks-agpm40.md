@@ -1,0 +1,49 @@
+---
+title: Realización de tareas de revisor
+description: Realización de tareas de revisor
+author: dansimp
+ms.assetid: b5f0805c-da55-45a5-a94c-2473af92b54a
+ms.reviewer: ''
+manager: dansimp
+ms.author: dansimp
+ms.pagetype: mdop
+ms.mktglfcycl: manage
+ms.sitesec: library
+ms.prod: w10
+ms.date: 06/16/2016
+ms.openlocfilehash: 95d13ea717b227e3ec372435da9df3d98c9e6dd1
+ms.sourcegitcommit: 354664bc527d93f80687cd2eba70d1eea024c7c3
+ms.translationtype: MT
+ms.contentlocale: es-ES
+ms.lasthandoff: 06/26/2020
+ms.locfileid: "10818590"
+---
+# <span data-ttu-id="77fda-103">Realización de tareas de revisor</span><span class="sxs-lookup"><span data-stu-id="77fda-103">Performing Reviewer Tasks</span></span>
+
+
+<span data-ttu-id="77fda-104">Un revisor es una persona autorizada por un administrador de AGPM (control total) para revisar o auditar objetos de directiva de grupo (GPO).</span><span class="sxs-lookup"><span data-stu-id="77fda-104">A Reviewer is a person authorized by an AGPM Administrator (Full Control) to review or audit Group Policy Objects (GPOs).</span></span> <span data-ttu-id="77fda-105">Una persona con solo el rol de revisor no puede modificar los GPO; sin embargo, todos los demás roles incluyen el rol de revisor.</span><span class="sxs-lookup"><span data-stu-id="77fda-105">An individual with only the Reviewer role cannot modify GPOs; however, all other roles include the Reviewer role.</span></span>
+
+-   [<span data-ttu-id="77fda-106">Configurar una conexión de servidor AGPM</span><span class="sxs-lookup"><span data-stu-id="77fda-106">Configure an AGPM Server Connection</span></span>](configure-an-agpm-server-connection-agpm40.md)
+
+-   [<span data-ttu-id="77fda-107">Revisar configuración de GPO</span><span class="sxs-lookup"><span data-stu-id="77fda-107">Review GPO Settings</span></span>](review-gpo-settings-agpm40.md)
+
+-   [<span data-ttu-id="77fda-108">Revisar los vínculos de GPO</span><span class="sxs-lookup"><span data-stu-id="77fda-108">Review GPO Links</span></span>](review-gpo-links-agpm40.md)
+
+-   [<span data-ttu-id="77fda-109">Identificar las diferencias entre las GPO, las versiones de GPO y las plantillas</span><span class="sxs-lookup"><span data-stu-id="77fda-109">Identify Differences Between GPOs, GPO Versions, or Templates</span></span>](identify-differences-between-gpos-gpo-versions-or-templates-agpm40.md)
+
+### <span data-ttu-id="77fda-110">Consideraciones adicionales</span><span class="sxs-lookup"><span data-stu-id="77fda-110">Additional considerations</span></span>
+
+<span data-ttu-id="77fda-111">De forma predeterminada, se proporcionan los siguientes permisos para el rol de revisor:</span><span class="sxs-lookup"><span data-stu-id="77fda-111">By default, the following permissions are provided for the Reviewer role:</span></span>
+
+-   <span data-ttu-id="77fda-112">Contenido de la lista</span><span class="sxs-lookup"><span data-stu-id="77fda-112">List Contents</span></span>
+
+-   <span data-ttu-id="77fda-113">Leer configuración</span><span class="sxs-lookup"><span data-stu-id="77fda-113">Read Settings</span></span>
+
+ 
+
+ 
+
+
+
+
+
