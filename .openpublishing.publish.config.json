@@ -53,8 +53,8 @@
     "name": "docfx_v3"
   },
   "targets": {
-    "Pdf": {
-      "template_folder": "_themes.pdf"
+    "Pdf": {  
+    "template_folder": "_themes.pdf"  
     }
   }
 }
