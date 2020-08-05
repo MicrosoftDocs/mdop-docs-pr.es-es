@@ -11,12 +11,12 @@ ms.mktglfcycl: manage
 ms.sitesec: library
 ms.prod: w10
 ms.date: 04/05/2017
-ms.openlocfilehash: b09ea8161b6801c62552f1c0d0ef8455dc111e2f
-ms.sourcegitcommit: 354664bc527d93f80687cd2eba70d1eea024c7c3
+ms.openlocfilehash: f8a69fb323d9f47c5b906ac3abc6ec59376ee6f7
+ms.sourcegitcommit: 0a7dee11289780336d9c24ebbf27c5c1ffee441c
 ms.translationtype: MT
 ms.contentlocale: es-ES
-ms.lasthandoff: 06/26/2020
-ms.locfileid: "10819100"
+ms.lasthandoff: 08/04/2020
+ms.locfileid: "10905607"
 ---
 # Elección de qué versión de AGPM ha de instalarse
 
@@ -53,42 +53,47 @@ En la tabla 1 se enumeran los sistemas operativos en los que puede instalar AGPM
 </thead>
 <tbody>
 <tr class="odd">
-<td align="left"><p>Windows Server 2016 o Windows 10</p></td>
-<td align="left"><p>Windows Server 2016 o Windows 10</p></td>
+<td align="left"><p>Windows Server 2019 o Windows 10</p></td>
+<td align="left"><p>Windows Server 2019 o Windows 10</p></td>
 <td align="left"><p>Se admite</p></td>
 </tr>
-<tr class="even">
+ <tr class="even">
+<td align="left"><p>Windows Server 2019 o Windows 10</p></td>
+<td align="left"><p>Windows Server 2019 o Windows 10</p></td>
+<td align="left"><p>Se admite</p></td>
+</tr>
+<tr class="edd">
 <td align="left"><p>Windows Server2012 R2</p></td>
 <td align="left"><p>Windows 10</p></td>
 <td align="left"><p>Compatible con las advertencias descritas en <a href="https://support.microsoft.com/help/4015786/known-issues-managing-a-windows-10-group-policy-client-in-windows-serv" data-raw-source="[KB 4015786](https://support.microsoft.com/help/4015786/known-issues-managing-a-windows-10-group-policy-client-in-windows-serv)"> KB 4015786</a>
 </p></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><p>Windows Server2012 R2 o Windows 8.1</p></td>
 <td align="left"><p>Windows Server2012 R2 o Windows 8.1</p></td>
 <td align="left"><p>Se admite</p></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><p>Windows Server2012 R2, Windows Server 2012 o Windows 8.1</p></td>
 <td align="left"><p>Windows Server 2012 o Windows 8,1</p></td>
 <td align="left"><p>Compatible, pero no puede editar la configuración de directivas o los elementos de preferencias que solo existen en Windows 8.1</p></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><p>Windows Server2008R2 o Windows7</p></td>
 <td align="left"><p>Windows Server2008R2 o Windows7</p></td>
 <td align="left"><p>Compatible, pero no puede editar la configuración de directivas o los elementos de preferencias que solo existen en Windows 8.1</p></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><p>Windows Server 2012, Windows Server2008R2 o Windows7</p></td>
 <td align="left"><p>Windows Server2008 o vista con Service Pack 1 (SP1)</p></td>
 <td align="left"><p>Compatible, pero no puede editar la configuración de directivas o los elementos de preferencias que solo existen en Windows Server2012 R2, Windows Server 2012, Windows Server2008R2, Windows 8.1 o Windows7</p></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td align="left"><p>Windows Server2008 o Windows Vista con SP1</p></td>
 <td align="left"><p>Windows Server 2012, Windows Server2008R2, Windows 8 o Windows7</p></td>
 <td align="left"><p>No se admite</p></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td align="left"><p>Windows Server2008 o Windows Vista con SP1</p></td>
 <td align="left"><p>Windows Server2008 o Windows Vista con SP1</p></td>
 <td align="left"><p>Compatible, pero no puede notificar o editar la configuración de directivas o los elementos de preferencias que solo existen en Windows Server2012 R2, Windows Server 2012, Windows Server2008R2, Windows 8.1 o Windows7</p></td>
